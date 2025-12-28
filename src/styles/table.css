@@ -1,0 +1,104 @@
+.table-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border: 1px solid #e5e7eb;
+  /* Enable horizontal scroll for wide tables on small screens */
+  overflow-x: auto;
+}
+
+/* CABECERA */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.table-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.table-header button {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.table-header button:hover {
+  background: #f3f4f6;
+}
+
+/* TABLA */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f9fafb;
+}
+
+th {
+  text-align: left;
+  padding: 12px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+td {
+  padding: 14px 12px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.95rem;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+  cursor: pointer;
+}
+
+/* BADGES */
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge.administrador {
+  background: #e0ecff;
+  color: #2563eb;
+}
+
+.badge.jefe {
+  background: #fff4e5;
+  color: #f59e0b;
+}
+
+.badge.técnico,
+.badge.tecnico {
+  background: #e6f9f0;
+  color: #16a34a;
+}
+
+.badge.cliente {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Mobile-first compact spacing */
+@media (max-width: 768px) {
+  .table-card {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  th,
+  td {
+    padding: 10px 8px;
+  }
+}

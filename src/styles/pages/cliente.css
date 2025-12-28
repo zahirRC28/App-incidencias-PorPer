@@ -1,0 +1,11 @@
+.cliente-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.cliente-content {
+  flex: 1;
+  padding: 2rem;
+  background: #f4f6f8;
+  min-width: 0;
+}

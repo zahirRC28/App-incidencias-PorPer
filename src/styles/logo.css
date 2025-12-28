@@ -1,0 +1,31 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1.5rem;
+}
+
+/* Caja naranja del icono */
+.logo-icon {
+  background-color: #f59e0b;
+  padding: 12px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Imagen SVG */
+.logo-icon img {
+  width: 26px;
+  height: 26px;
+  filter: brightness(0); /* hace el icono negro */
+}
+
+/* Texto GMAO */
+.logo h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+}

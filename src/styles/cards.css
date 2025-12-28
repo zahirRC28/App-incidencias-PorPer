@@ -1,0 +1,67 @@
+/* GRID DE TARJETAS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* TARJETA */
+.stat-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.stat-card p {
+  color: #6b7280;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.stat-card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* ICONO */
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+/* COLORES */
+.stat-card.blue .stat-icon {
+  background: #e0ecff;
+  color: #2563eb;
+}
+
+.stat-card.orange .stat-icon {
+  background: #fff4e5;
+  color: #f59e0b;
+}
+
+.stat-card.gray .stat-icon {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.stat-card.green .stat-icon {
+  background: #e6f9f0;
+  color: #16a34a;
+}

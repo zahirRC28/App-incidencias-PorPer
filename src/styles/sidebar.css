@@ -1,0 +1,137 @@
+/* SIDEBAR */
+.sidebar {
+  width: 16.25rem; /* 260px */
+  height: 100vh;
+  background: linear-gradient(180deg, #14243b, #0f1e33);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  border-right: 0.0625rem solid rgba(255,255,255,0.05);
+}
+
+/* HEADER */
+.sidebar-header {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* NAVIGATION */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 1.8rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 1.4rem;
+  margin: 0 0.75rem;
+  border-radius: 0.75rem;
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
+.nav-item img {
+  filter: invert(1);
+  width: 2rem;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* FOOTER */
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1.25rem;
+  border-top: 0.0625rem solid rgba(255,255,255,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.user-role {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.logout {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.logout-text {
+  font-size: 0.9rem;
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.logout:hover {
+  opacity: 0.85;
+}
+
+.logout img {
+  filter: invert(1);
+  width: 2rem;
+}
+
+
+
+/* COLAPSO */
+.sidebar.collapsed {
+  width: 7rem;
+}
+.logoColapsado {
+  background-color: #f59e0b;
+  padding: 12px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.8rem;
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+}
+.sidebar.collapsed .sidebar-nav{
+  margin-top: 4rem;
+}
+.sidebar.collapsed .nav-item span {
+  display: none;
+}
+.sidebar.collapsed .sidebar-header h2 {
+  display: none;
+}
+.sidebar.collapsed .logout{
+  margin-left: 1.2rem;
+}

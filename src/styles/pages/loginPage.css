@@ -1,0 +1,13 @@
+.info-login h1 {
+    margin-bottom: 1rem;
+    font-size: 3.5rem;
+}
+.info-login p {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color:rgba(240, 248, 255, 0.568);
+}
+.tarjetas {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 3rem; 
+}
