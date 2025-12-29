@@ -11,6 +11,10 @@ import { AdminPage } from '../pages/AdminPage'
 import { JefePage } from '../pages/JefePage'
 import { TecnicoPage } from '../pages/TecnicoPage'
 import { ClientPage } from '../pages/ClientPage'
+import { UsersPage } from '../pages/PagesComun/UsersPage'
+import { AdminLayout } from '../layouts/AdminLayout'
+import { CrearUserPage } from '../pages/CrearUserPage'
+import { ActualizarUserPage } from '../pages/ActualizarUserPage'
 
 export const AppRoutes = () => {
   return (
@@ -21,21 +25,32 @@ export const AppRoutes = () => {
             <LoginPage />
           </PublicProtection>
         } />
+        {/*RUTAS DE ADMINISTRADOR*/}
         <Route path="admin" element={
           <ProtectedRoutes roles={['Administrador']}>
-            <AdminPage />
+            <AdminLayout/>
           </ProtectedRoutes>
-        } />
+        }>
+          <Route index element={<AdminPage/>} />
+          {/*SUBRUTAS DE ADMIN*/}
+          <Route path="users" element={<UsersPage/>} />
+          <Route path="users/crear" element={<CrearUserPage/>} />
+          <Route path="users/actualizar/:id" element={<ActualizarUserPage />} />
+        </Route>
+
+        {/*RUTAS DE JEFE*/}
         <Route path="jefe" element={
           <ProtectedRoutes roles={['Jefe', 'Administrador']}>
             <JefePage />
           </ProtectedRoutes>
         } />
+        {/*RUTAS DE TECNICO*/}
         <Route path="tecnico" element={
           <ProtectedRoutes roles={['Tecnico', 'Administrador']}>
             <TecnicoPage />
           </ProtectedRoutes>
         } />
+        {/*RUTAS DE CLIENTE*/}
         <Route path="cliente" element={
           <ProtectedRoutes roles={['Cliente', 'Administrador']}>
             <ClientPage />

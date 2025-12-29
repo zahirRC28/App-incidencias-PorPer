@@ -1,6 +1,6 @@
 import "../../styles/input.css";
 
-export const Input = ({ labeltext, type, placeholder, name, icon }) => {
+export const Input = ({ labeltext, type, placeholder, name, icon, valor }) => {
   return (
     <>
       <label>{labeltext}</label>
@@ -11,6 +11,7 @@ export const Input = ({ labeltext, type, placeholder, name, icon }) => {
           name={name}
           placeholder={placeholder}
           className="input"
+          defaultValue={valor}
         />
       </div>
     </>

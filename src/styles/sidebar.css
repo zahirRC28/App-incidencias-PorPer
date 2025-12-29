@@ -8,6 +8,9 @@
   flex-direction: column;
   transition: width 0.3s ease;
   border-right: 0.0625rem solid rgba(255,255,255,0.05);
+  position: sticky;
+  top: 0;
+  flex-shrink: 0; /* evita que se reduzca en layouts flex */
 }
 
 /* HEADER */

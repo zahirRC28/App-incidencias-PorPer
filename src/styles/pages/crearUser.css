@@ -1,0 +1,31 @@
+.select-rol{
+    margin: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 90%;
+    text-align: center;
+    background: #27548f;
+    color: white;
+}
+.select-rol option{
+    padding: 8px;
+    font-size: 1rem;
+}
+p{
+    font-size: 1.1rem;
+    margin: 0;
+}
+.error{
+    color: red;
+    margin-top: 10px;
+}
+.success {
+  color: green;
+  font-weight: 600;
+}
+.error {
+  color: red;
+  font-weight: 600;
+}

@@ -16,8 +16,16 @@ export const Sidebar = ({}) => {
   const { logoutUser, user } = userAuth();
   //console.log(logoutUser);
   const datosUser = user;
+  const rol = datosUser.rol;
   //console.log(datosUser.nombre);
   const [collapsed, setCollapsed] = useState(false);
+
+  const rutas = {
+    Administrador: "admin",
+    Tecnico: "tecnico",
+    Cliente: "client",
+    Jefe: "jefe"
+  }
 
   return (
     //Si tiene el nombre de la clase "collapsed", se aplica el estilo para que cambie el sidebar
@@ -33,27 +41,27 @@ export const Sidebar = ({}) => {
         <NavLink to="/" className="nav-item">
           <img src={dashboarndIcon} /><span>Dashboard</span>
         </NavLink>
-        {datosUser.rol === 'Administrador' && (
-          <NavLink to="/usuarios" className="nav-item">
+        {rol === 'Administrador' && (
+          <NavLink to={`/${rutas[rol]}/users`} className="nav-item">
             <img src={usuariosIcon} /><span>Usuarios</span>
           </NavLink>
         )}
-        {(datosUser.rol === 'Administrador' || datosUser.rol === 'Cliente') && (
-          <NavLink to="/maquinas" className="nav-item">
+        {(rol === 'Administrador' || rol === 'Cliente') && (
+          <NavLink to={`/${rutas[rol]}/maquinas`} className="nav-item">
             <img src={maquinasIcon} /><span>Máquinas</span>
           </NavLink>
         )}
-        {(datosUser.rol === 'Administrador' || datosUser.rol === 'Cliente' || datosUser.rol === 'Jefe')&& (
-          <NavLink to="/incidencias" className="nav-item">
+        {(rol === 'Administrador' || rol === 'Cliente' || rol === 'Jefe' || rol === 'Tecnico')&& (
+          <NavLink to={`/${rutas[rol]}/incidencias`} className="nav-item">
             <img src={incidenciasIcon} /><span>Incidencias</span>
           </NavLink>
         )}
-        {(datosUser.rol === 'Administrador' || datosUser.rol === 'Jefe')&& (
-          <NavLink to="/mantenimientos" className="nav-item">
+        {(rol === 'Administrador' || rol === 'Jefe')&& (
+          <NavLink to={`/${rutas[rol]}/mantenimientos`} className="nav-item">
           <img src={mantenimientosIcon} /><span>Mantenimientos</span>
         </NavLink>
         )}
-        <NavLink to="/configuracion" className="nav-item">
+        <NavLink to={`/${rutas[rol]}/configuracion`} className="nav-item">
           <img src={configuracionIcon} /><span>Configuración</span>
         </NavLink>
       </nav>

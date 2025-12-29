@@ -22,15 +22,15 @@
 }
 
 .table-header button {
-  background: transparent;
+  background-color: #2563eb;
   border: 1px solid #e5e7eb;
-  padding: 6px 14px;
+  padding: 0.5rem 0.4rem;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .table-header button:hover {
-  background: #f3f4f6;
+  background: #6192f2;
 }
 
 /* TABLA */
@@ -45,13 +45,13 @@ thead {
 
 th {
   text-align: left;
-  padding: 12px;
+  padding: 1rem;
   font-size: 0.85rem;
   color: #6b7280;
 }
 
 td {
-  padding: 14px 12px;
+  padding: 0.8rem 1rem;
   border-top: 1px solid #e5e7eb;
   font-size: 0.95rem;
 }
@@ -62,30 +62,29 @@ tbody tr:hover {
 }
 
 /* BADGES */
-.badge {
+.rol {
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 500;
 }
 
-.badge.administrador {
+.rol.administrador {
   background: #e0ecff;
   color: #2563eb;
 }
 
-.badge.jefe {
+.rol.jefe {
   background: #fff4e5;
   color: #f59e0b;
 }
 
-.badge.técnico,
-.badge.tecnico {
+.rol.tecnico {
   background: #e6f9f0;
   color: #16a34a;
 }
 
-.badge.cliente {
+.rol.cliente {
   background: #f3f4f6;
   color: #374151;
 }
