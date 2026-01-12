@@ -1,43 +1,124 @@
+/* Fondo del modal */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
+  padding: 1rem; /* evita que toque los bordes en móvil */
 }
 
+/* Contenedor del modal */
 .modal-content {
-  background: #1d3a7b;
+  background: linear-gradient(135deg, #1d3a7b, #162b5c);
   padding: 2rem;
   border-radius: 1rem;
-  min-width: 320px;
-  animation: pop 0.2s ease;
+  width: 100%;
+  max-width: 480px;        /* evita que se haga gigante */
+  max-height: 80vh;        /* evita crecimiento vertical */
+  overflow-y: auto;        /* scroll si el texto es muy largo */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  animation: pop 0.25s ease-out;
 }
-.info{
-  margin-bottom: 1.5rem;
-}
-.info p{
-  color: white;
-}
-button {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin-right: 1rem;
+.titulo-modal {
+  font-size: 1.5rem;
+  color: #f3f4f6;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
 }
 
+/* Info */
+/* Bloque de información */
+.info {
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #38bdf8;
+  padding: 1rem 1.2rem;
+  border-radius: 0.6rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Texto principal */
+.info p {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+p.info{
+  color: #fb3d24;
+}
+
+/* Separador visual si hay varios textos */
+.info p + p {
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Variante tipo warning / error */
+.info.warning {
+  border-left-color: #facc15;
+  background: rgba(250, 204, 21, 0.1);
+}
+
+.info.error {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.info.success {
+  border-left-color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+/* Botones */
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.modal-content button:hover {
+  background: #dc2626;
+}
+
+.modal-content button:active {
+  transform: scale(0.97);
+}
+
+/* Responsive extra */
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 1.5rem;
+    border-radius: 0.8rem;
+  }
+
+  .info p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Animación */
 @keyframes pop {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.92) translateY(10px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }

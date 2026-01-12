@@ -5,20 +5,19 @@ import "../../styles/pages/user.css"
 import { userAuth } from "../../hooks/userAuth";
 import { useNavigate } from "react-router-dom";
 
-// import { Button } from "../../components/ui/Button";
-
 
 export const UsersPage = () => {
-    const { todosUser, eliminarUser } = userAuth();
+    const { todosUser, eliminarUser, estadoUser, mensaje, limpiarMensaje } = userAuth();
     const [loading, setLoading] = useState(false);
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
+    const [confirmacion, setConfirmacion] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
     const navigate = useNavigate();
     const crear = '/admin/users/crear';
-    const editar = '/admin/users/actualizar';
+
     const cargarDatos = async () => {
         setLoading(true);
         try {
@@ -36,6 +35,13 @@ export const UsersPage = () => {
     useEffect(() => {
         cargarDatos();
     }, []);
+    
+    useEffect(() => {
+        if (mensaje) {
+        // Recargar los datos después de una acción exitosa
+        cargarDatos();
+        }
+    }, [mensaje]);
 
     const userColumns = [
         { key: "nombre_completo", label: "Nombre" },
@@ -50,7 +56,11 @@ export const UsersPage = () => {
         )
         },
         { key: "correo", label: "Email" },
-        { key: "fecha_ingreso", label: "fecha-ingreso" }
+        { key: "fecha_ingreso", label: "fecha-ingreso" },
+        { key: "activo", label: "Estado" ,
+            render: (user) => user.activo ? "Activo" : "Inactivo"
+        },
+        { key: "fecha_baja", label: "fecha-baja" }
     ];
 
     const handleUserClick = (dato) => {
@@ -60,7 +70,28 @@ export const UsersPage = () => {
     };
     const handleEliminarUser =() =>{
         eliminarUser(selectedUser.id_usuario, selectedUser.correo);
+        //poner un temporizador para cerrar el modal despues de eliminar y mostrar el mensaje
+        setTimeout(()=>{
+            limpiarMensaje();
+            setOpen(false);
+            setConfirmacion(false);
+            setSelectedUser(null);
+        },1500);
+    }
+    const handleEstadoUser =() =>{
+        estadoUser(selectedUser.id_usuario);
+        //poner un temporizador para cerrar el modal despues de eliminar y mostrar el mensaje
+        setTimeout(()=>{
+            limpiarMensaje();
+            setOpen(false);
+        },1500);
+    }
+    const handleCerrarModal = () =>{
         setOpen(false);
+        setSelectedUser(null);
+    }
+    const handleConfirmacion = () =>{
+        setConfirmacion(true);
     }
   return (
     <>
@@ -75,7 +106,7 @@ export const UsersPage = () => {
             onClickInfo={(user) => handleUserClick(user)}
         />
         {loading && <p>Cargando datos...</p>}
-        <Modal open={open} onClose={() => setOpen(false)}>
+        <Modal open={open} onClose={handleCerrarModal}>
             <h2>Detalle del Usuario</h2>
             {selectedUser && (
                 <>
@@ -86,11 +117,23 @@ export const UsersPage = () => {
                         <p>Email: {selectedUser.correo}</p>
                         <p>fecha-ingreso: {selectedUser.correo}</p>
                     </div>
+                    {
+                        mensaje && <p style={{ color: "green" }}>{mensaje}</p>
+                    }
                     <button onClick={() => navigate(`/admin/users/actualizar/${selectedUser.id_usuario}`)}>Editar</button>
-                    <button onClick={handleEliminarUser}>Eliminar</button>
-                    <button onClick={() => setOpen(false)}>Cancelar</button>
+                    <button onClick={handleEstadoUser}>Cambiar Estado</button>
+                    <button onClick={handleConfirmacion}>Eliminar</button>
+                    <button onClick={handleCerrarModal}>Cancelar</button>
                 </>
             )}
+        </Modal>
+        <Modal open={confirmacion} onClose={() => setConfirmacion(false)}>
+            <h2>Seguro que quieres eliminar el usuario?</h2>
+            {
+                mensaje && <p style={{ color: "green" }}>{mensaje}</p>
+            }
+            <button onClick={handleEliminarUser}>Eliminar</button>
+            <button onClick={() => setConfirmacion(false)}>Cancelar</button>
         </Modal>
     </>
   )

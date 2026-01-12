@@ -41,49 +41,49 @@ export const CrearUserPage = () => {
         crearUsuario(datos);
     }
     
-  return (
-    <>
-        <h2>Crear Usuario</h2>
-        <form  onSubmit={handleSubmit}>
-            <Input labeltext={"Nombre Completo:"} 
-            type="text" name="nombre" 
-            placeholder="escribe aqui tu nombre" 
-            icon={<img src={imgCorreo} alt="nombre" />}
-            />
-            <Input labeltext={"Correo Electrónico:"} 
-                type="text" name="email" 
-                placeholder="tu@email.com"
-            icon={<img src={imgCorreo} alt="Correo" />}
-            />
-            {error?.correo && (
-                <p className="error">{error.correo.msg}</p>
-            )}
-            <Input labeltext={"Contraseña:"} 
-                type="text" name="password" 
-                placeholder="••••••••"
-            icon={<img src={imgContra} alt="Contraseña" />}
-            />
-            {error?.contrasenia && (
-                <p className="error">{error.contrasenia.msg}</p>
-            )}
-            <p>Roles:</p>
-            <select name="rol" className="select-rol">
-                {
-                    roles.map((rol, index)=>(
-                        <option key={index} id={rol.id_rol} value={rol.nombre}>{rol.nombre}</option>
-                    ))
-                }
-            </select>
-            {formError && (
-                <p className="error">{formError}</p>
-            )}
-            {error && (
-                <p className="error">{error}</p>
-            )}
-            {mensaje && <p className="success">{mensaje}</p>}
-            <Button text="Crear Usuario" type="submit" />
-        </form>
+     return (
+        <>
+            <h2>Crear Usuario</h2>
+            <form  onSubmit={handleSubmit}>
+                <Input labeltext={"Nombre Completo:"} 
+                type="text" name="nombre" 
+                placeholder="escribe aqui tu nombre" 
+                icon={<img src={imgCorreo} alt="nombre" />}
+                />
+                <Input labeltext={"Correo Electrónico:"} 
+                    type="text" name="email" 
+                    placeholder="tu@email.com"
+                icon={<img src={imgCorreo} alt="Correo" />}
+                />
+                {error?.correo && (
+                    <p className="error">{error.correo.msg}</p>
+                )}
+                <Input labeltext={"Contraseña:"} 
+                    type="text" name="password" 
+                    placeholder="••••••••"
+                icon={<img src={imgContra} alt="Contraseña" />}
+                />
+                {error?.contrasenia && (
+                    <p className="error">{error.contrasenia.msg}</p>
+                )}
+                <p>Roles:</p>
+                <select name="rol" className="select-rol">
+                    {
+                        roles.map((rol, index)=>(
+                            <option key={index} id={rol.id_rol} value={rol.nombre}>{rol.nombre}</option>
+                        ))
+                    }
+                </select>
+                {formError && (
+                    <p className="error">{formError}</p>
+                )}
+                {error && (
+                    <p className="error">{error}</p>
+                )}
+                {mensaje && <p className="success">{mensaje}</p>}
+                <Button text="Crear Usuario" type="submit" />
+            </form>
         
-    </>
+        </>
   )
 }

@@ -22,8 +22,9 @@ export const UserProvider = ({ children }) => {
     const logout = () =>{
       setUser(null)
       setToken(null)
-      Cookies.remove('miToken');
-      Cookies.remove('userData');
+      // Las cookies se setearon con path '/'; usa el mismo para borrarlas
+      Cookies.remove('miToken', { path: '/' });
+      Cookies.remove('userData', { path: '/' });
     }
 
   return (

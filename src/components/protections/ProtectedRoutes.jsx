@@ -1,12 +1,20 @@
 import { userAuth } from '../../hooks/userAuth';
 import { Navigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 export const ProtectedRoutes = ({ children, roles }) => {
-  const { getRole, token } = userAuth();
-    
-    if(!token) return <Navigate to="/" />;
+  const { getRole, token, logoutUser } = userAuth();
 
     const userRol = getRole();
+    // Asegura que los hooks se llamen SIEMPRE antes de cualquier return
+    useEffect(() => {
+      if (token && !userRol) {
+        logoutUser();
+      }
+    }, [token, userRol]);
+
+    if(!token) return <Navigate to="/" replace />;
+    if(!userRol) return <Navigate to="/" replace />;
 
     const roleToRoute = {
       Administrador: "/admin",

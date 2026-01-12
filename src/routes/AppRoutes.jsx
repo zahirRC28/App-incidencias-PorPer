@@ -13,8 +13,17 @@ import { TecnicoPage } from '../pages/TecnicoPage'
 import { ClientPage } from '../pages/ClientPage'
 import { UsersPage } from '../pages/PagesComun/UsersPage'
 import { AdminLayout } from '../layouts/AdminLayout'
+import { JefeLayout } from '../layouts/JefeLayout'
+import { TecnicoLayout } from '../layouts/TecnicoLayout'
 import { CrearUserPage } from '../pages/CrearUserPage'
 import { ActualizarUserPage } from '../pages/ActualizarUserPage'
+import { ClienteLayout } from '../layouts/ClienteLayout'
+import { CrearIncidenciaPage } from '../pages/CrearIncidenciaPage'
+import { IncidenciasPage } from '../pages/PagesComun/IncidenciasPage'
+import { MaquinasPage } from '../pages/PagesComun/MaquinasPage'
+import { CrearMaquinaPage } from '../pages/CrearMaquinaPage'
+import { IncidenciaDetallesPage } from '../pages/PagesComun/IncidenciaDetallesPage'
+import { ActualizarMaquinaPage } from '../pages/ActualizarMaquinaPage'
 
 export const AppRoutes = () => {
   return (
@@ -35,27 +44,50 @@ export const AppRoutes = () => {
           {/*SUBRUTAS DE ADMIN*/}
           <Route path="users" element={<UsersPage/>} />
           <Route path="users/crear" element={<CrearUserPage/>} />
-          <Route path="users/actualizar/:id" element={<ActualizarUserPage />} />
+          <Route path="users/actualizar/:id" element={<ActualizarUserPage/>} />
+          <Route path="maquinas" element={<MaquinasPage/>}/>
+          <Route path="maquina/crear" element={<CrearMaquinaPage/>}/>
+          <Route path="maquina/actualizar/:id" element={<ActualizarMaquinaPage/>} />
+          <Route path="incidencias" element={<IncidenciasPage/>} />
+          <Route path="incidencia/crear" element={<CrearIncidenciaPage/>}/>
         </Route>
 
         {/*RUTAS DE JEFE*/}
         <Route path="jefe" element={
           <ProtectedRoutes roles={['Jefe', 'Administrador']}>
-            <JefePage />
+            <JefeLayout />
           </ProtectedRoutes>
-        } />
+        }>
+          <Route index element={<JefePage/>} />
+          <Route path="incidencias" element={<IncidenciasPage/>} />
+          <Route path="incidencia/detalles/:id" element={<IncidenciaDetallesPage />}/>
+          <Route path="maquinas" element={<MaquinasPage/>}/>
+        </Route>
+
         {/*RUTAS DE TECNICO*/}
         <Route path="tecnico" element={
           <ProtectedRoutes roles={['Tecnico', 'Administrador']}>
-            <TecnicoPage />
+            <TecnicoLayout />
           </ProtectedRoutes>
-        } />
+        }>
+          <Route index element={<TecnicoPage/>} />
+          <Route path="incidencias" element={<IncidenciasPage/>} />
+          <Route path="incidencia/detalles/:id" element={<IncidenciaDetallesPage />}/>
+          <Route path="maquinas" element={<MaquinasPage/>}/>
+        </Route>
+
         {/*RUTAS DE CLIENTE*/}
         <Route path="cliente" element={
           <ProtectedRoutes roles={['Cliente', 'Administrador']}>
-            <ClientPage />
+            <ClienteLayout/>
           </ProtectedRoutes>
-        } />
+        }>
+          <Route index element={<ClientPage/>} />
+          <Route path="incidencias" element={<IncidenciasPage/>} />
+          <Route path="incidencia/crear" element={<CrearIncidenciaPage/>}/>
+          <Route path="incidencia/detalles/:id" element={<IncidenciaDetallesPage />}/>
+          <Route path="maquinas" element={<MaquinasPage/>}/>
+        </Route>
       </Route>
       <Route path='/*' element={<Navigate to={'/'} />} />
     </Routes>
