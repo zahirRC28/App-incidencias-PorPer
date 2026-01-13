@@ -103,7 +103,7 @@ El diagrama entidad–relación del sistema se encuentra disponible en el archiv
 
 A continuación se muestra el diagrama entidad–relación utilizado en la aplicación:
 
-![Diagrama de la base de datos](/src/public/baseDeDatos.png)
+![Diagrama de la base de datos](/public/baseDeDatos.png)
 
 
 ## Notas de despliegue
