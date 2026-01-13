@@ -274,7 +274,7 @@ export const IncidenciaDetallesPage = () => {
                     <ul className="archivos-lista">
                     {(datos.archivos ?? []).map((archivo) => (
                         <li key={archivo.id_archivo}>
-                        <a href={`${urlBase}${archivo.url}`} download>
+                        <a href={`${archivo.url}`} download>
                             📎 {archivo.nombre_original || 'Descargar archivo'}
                         </a>
                         </li>
