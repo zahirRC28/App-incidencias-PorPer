@@ -1,0 +1,2762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Global</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Global</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="ActualizarMaquinaPage"><span class="type-signature">(constant) </span>ActualizarMaquinaPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página para actualizar la información de una máquina.Funcionalidades:- Obtiene los datos de la máquina a actualizar según su `id`.- Permite cambiar nombre, modelo, prioridad recomendada y usuario asignado.- Muestra mensajes de éxito o error tras la actualización.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_ActualizarMaquinaPage.jsx.html">pages/ActualizarMaquinaPage.jsx</a>, <a href="pages_ActualizarMaquinaPage.jsx.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="ActualizarUserPage"><span class="type-signature">(constant) </span>ActualizarUserPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página para actualizar un usuario del sistema.Funcionalidades:- Carga los datos del usuario según su `id`.- Permite actualizar nombre, correo, contraseña y rol.- Muestra mensajes de error y éxito tras la actualización.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_ActualizarUserPage.jsx.html">pages/ActualizarUserPage.jsx</a>, <a href="pages_ActualizarUserPage.jsx.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="AdminLayout"><span class="type-signature">(constant) </span>AdminLayout<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Layout principal para la sección de Administrador.Incluye:- Sidebar de navegación- Contenedor principal (`<main>`) donde se renderizan las rutas hijas mediante `<Outlet />`.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="layouts_AdminLayout.jsx.html">layouts/AdminLayout.jsx</a>, <a href="layouts_AdminLayout.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="AdminPage"><span class="type-signature">(constant) </span>AdminPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página principal del panel de administración
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_AdminPage.jsx.html">pages/AdminPage.jsx</a>, <a href="pages_AdminPage.jsx.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="AppRoutes"><span class="type-signature">(constant) </span>AppRoutes<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente de rutas principales de la aplicación.Define todas las rutas públicas y protegidas según el rol del usuario.Rutas principales:- /               -> LoginPage (protegida como pública)- /admin/*        -> Panel de administrador- /jefe/*         -> Panel de jefe- /tecnico/*      -> Panel de técnico- /cliente/*      -> Panel de cliente
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_AppRoutes.jsx.html">routes/AppRoutes.jsx</a>, <a href="routes_AppRoutes.jsx.html#line42">line 42</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="AuthLayout"><span class="type-signature">(constant) </span>AuthLayout<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Layout para páginas de autenticación (login, registro, etc.).Divide la pantalla en dos secciones:- left: contenido izquierdo (por ejemplo, imagen, texto promocional)- right: contenido derecho (formulario de login/registro)
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="layouts_AuthLayout.jsx.html">layouts/AuthLayout.jsx</a>, <a href="layouts_AuthLayout.jsx.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Button"><span class="type-signature">(constant) </span>Button<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente ButtonBotón reutilizable con texto y acción al hacer clic.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_ui_Button.jsx.html">components/ui/Button.jsx</a>, <a href="components_ui_Button.jsx.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Button text="Enviar" onClick={handleSubmit} type="submit" /></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="Card"><span class="type-signature">(constant) </span>Card<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente CardContenedor genérico para contenido con estilo de tarjeta.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_ui_Card.jsx.html">components/ui/Card.jsx</a>, <a href="components_ui_Card.jsx.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Card>  &lt;p>Contenido de la tarjeta&lt;/p>&lt;/Card></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="ClientPage"><span class="type-signature">(constant) </span>ClientPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Panel principal del cliente
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_ClientPage.jsx.html">pages/ClientPage.jsx</a>, <a href="pages_ClientPage.jsx.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="ClienteLayout"><span class="type-signature">(constant) </span>ClienteLayout<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Layout principal para la sección de Cliente.Incluye:- Sidebar de navegación- Contenedor principal (`<main>`) donde se renderizan las rutas hijas mediante `<Outlet />`.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="layouts_ClienteLayout.jsx.html">layouts/ClienteLayout.jsx</a>, <a href="layouts_ClienteLayout.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="CrearIncidenciaPage"><span class="type-signature">(constant) </span>CrearIncidenciaPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página para crear una incidencia en el sistema- Admin: puede seleccionar usuario y ver máquinas del usuario- Cliente: solo puede seleccionar máquinas propiasPermite subir un archivo principal y un archivo adjunto.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_CrearIncidenciaPage.jsx.html">pages/CrearIncidenciaPage.jsx</a>, <a href="pages_CrearIncidenciaPage.jsx.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="CrearMaquinaPage"><span class="type-signature">(constant) </span>CrearMaquinaPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página para crear una nueva máquina en el sistema- Solo permite asignar la máquina a usuarios con rol "Cliente"- Permite indicar nombre, modelo y prioridad recomendada
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_CrearMaquinaPage.jsx.html">pages/CrearMaquinaPage.jsx</a>, <a href="pages_CrearMaquinaPage.jsx.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="CrearUserPage"><span class="type-signature">(constant) </span>CrearUserPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página para crear un nuevo usuario en el sistema- Permite asignar un rol al usuario- Valida campos requeridos- Muestra errores y mensajes de éxito
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_CrearUserPage.jsx.html">pages/CrearUserPage.jsx</a>, <a href="pages_CrearUserPage.jsx.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="DataTable"><span class="type-signature">(constant) </span>DataTable<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente DataTableEste componente renderiza una tabla de datos dinámica con columnas configurables,soporte para acciones y límite de filas visibles.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_dashboard_DataTable.jsx.html">components/dashboard/DataTable.jsx</a>, <a href="components_dashboard_DataTable.jsx.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="FeatureCard"><span class="type-signature">(constant) </span>FeatureCard<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente FeatureCardTarjeta para mostrar una característica o función, con ícono, título y descripción.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_ui_FeatureCard.jsx.html">components/ui/FeatureCard.jsx</a>, <a href="components_ui_FeatureCard.jsx.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;FeatureCard icon="/img/icon.png" title="Rapidez" description="Procesos rápidos y eficientes" /></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="IncidenciaDetallesPage"><span class="type-signature">(constant) </span>IncidenciaDetallesPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página para ver los detalles completos de una incidencia.Permite:- Visualizar datos de la incidencia (título, descripción, estado, prioridad, archivos, informes, etc.)- Cambiar estado o prioridad de la incidencia- Asignar técnico o jefe según rol- Descargar PDF de la incidencia- Crear informes- Ampliar foto principal en un modalRoles permitidos: Administrador, Jefe, Técnico, Cliente (solo lectura para Cliente)
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_PagesComun_IncidenciaDetallesPage.jsx.html">pages/PagesComun/IncidenciaDetallesPage.jsx</a>, <a href="pages_PagesComun_IncidenciaDetallesPage.jsx.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="IncidenciasPage"><span class="type-signature">(constant) </span>IncidenciasPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página principal de Incidencias.Muestra:- Tabla de incidencias según el rol del usuario.- Modal con detalle rápido de la incidencia seleccionada.- Botón para crear nuevas incidencias (si el rol lo permite).
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_PagesComun_IncidenciasPage.jsx.html">pages/PagesComun/IncidenciasPage.jsx</a>, <a href="pages_PagesComun_IncidenciasPage.jsx.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Input"><span class="type-signature">(constant) </span>Input<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente InputCampo de entrada con etiqueta y posible ícono.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_ui_Input.jsx.html">components/ui/Input.jsx</a>, <a href="components_ui_Input.jsx.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Input labeltext="Correo" type="text" placeholder="tu@email.com" name="email" /></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="JefeLayout"><span class="type-signature">(constant) </span>JefeLayout<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Layout principal para la sección de Jefe.Incluye:- Sidebar de navegación- Contenedor principal (`<main>`) donde se renderizan las rutas hijas mediante `<Outlet />`.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="layouts_JefeLayout.jsx.html">layouts/JefeLayout.jsx</a>, <a href="layouts_JefeLayout.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="JefePage"><span class="type-signature">(constant) </span>JefePage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página principal del panel de Jefe
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_JefePage.jsx.html">pages/JefePage.jsx</a>, <a href="pages_JefePage.jsx.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="LoginForm"><span class="type-signature">(constant) </span>LoginForm<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente LoginFormMuestra un formulario de inicio de sesión para que los usuarios puedan autenticarse.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_auth_LoginForm.jsx.html">components/auth/LoginForm.jsx</a>, <a href="components_auth_LoginForm.jsx.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>return (  &lt;LoginForm />)</code></pre>
+
+
+
+        
+            
+<h4 class="name" id="Logo"><span class="type-signature">(constant) </span>Logo<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente LogoMuestra el logo de la aplicación con ícono y texto.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_ui_Logo.jsx.html">components/ui/Logo.jsx</a>, <a href="components_ui_Logo.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Logo /></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="MaquinasPage"><span class="type-signature">(constant) </span>MaquinasPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página de gestión de máquinas.Funcionalidades:- Muestra todas las máquinas según el rol del usuario.- Permite ver detalles de cada máquina en un modal.- Permite crear, editar o eliminar máquinas (solo Administrador).
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_PagesComun_MaquinasPage.jsx.html">pages/PagesComun/MaquinasPage.jsx</a>, <a href="pages_PagesComun_MaquinasPage.jsx.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Modal"><span class="type-signature">(constant) </span>Modal<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente ModalVentana modal que muestra contenido sobre un overlay, puede cerrarse al hacer clic fuera.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Modal.jsx.html">components/Modal.jsx</a>, <a href="components_Modal.jsx.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Modal open={isOpen} onClose={() => setIsOpen(false)}>  &lt;p>Contenido del modal&lt;/p>&lt;/Modal></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="ProtectedRoutes"><span class="type-signature">(constant) </span>ProtectedRoutes<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente de rutas protegidasRestringe el acceso a rutas según si el usuario está autenticado y su rol.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_protections_ProtectedRoutes.jsx.html">components/protections/ProtectedRoutes.jsx</a>, <a href="components_protections_ProtectedRoutes.jsx.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="PublicProtection"><span class="type-signature">(constant) </span>PublicProtection<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente de protección de rutas públicasEvita que un usuario autenticado acceda a rutas públicas (ej. login, registro),redirigiéndolo a su ruta correspondiente según su rol.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_protections_PublicProtection.jsx.html">components/protections/PublicProtection.jsx</a>, <a href="components_protections_PublicProtection.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="RendAni"><span class="type-signature">(constant) </span>RendAni<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente RendAniRenderiza un `Outlet` de React Router para rutas anidadas con animaciones.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_RendAni.jsx.html">components/RendAni.jsx</a>, <a href="components_RendAni.jsx.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;RendAni /></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="Sidebar"><span class="type-signature">(constant) </span>Sidebar<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente SidebarRenderiza un menú lateral (sidebar) responsivo con navegación condicionalsegún el rol del usuario (Administrador, Técnico, Cliente, Jefe).  Permite colapsar/expandir el menú y mostrar información del usuario actual.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_sidebar_Sidebar.jsx.html">components/sidebar/Sidebar.jsx</a>, <a href="components_sidebar_Sidebar.jsx.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;Sidebar /></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="StatCard"><span class="type-signature">(constant) </span>StatCard<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Componente StatCardMuestra una tarjeta estadística con un título, valor e ícono, con color personalizado.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_dashboard_StatCard.jsx.html">components/dashboard/StatCard.jsx</a>, <a href="components_dashboard_StatCard.jsx.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="TecnicoLayout"><span class="type-signature">(constant) </span>TecnicoLayout<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Layout principal para la sección de Técnico.Incluye:- Sidebar de navegación- Contenedor principal (`<main>`) donde se renderizan las rutas hijas mediante `<Outlet />`.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="layouts_TecnicoLayout.jsx.html">layouts/TecnicoLayout.jsx</a>, <a href="layouts_TecnicoLayout.jsx.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="TecnicoPage"><span class="type-signature">(constant) </span>TecnicoPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Panel de gestión para técnicos
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_TecnicoPage.jsx.html">pages/TecnicoPage.jsx</a>, <a href="pages_TecnicoPage.jsx.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="UserProvider"><span class="type-signature">(constant) </span>UserProvider<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Proveedor de contexto de usuarioEste componente envuelve la aplicación y provee información del usuarioy del token de autenticación a todos los componentes que consuman el contexto.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="contexts_UserProvider.jsx.html">contexts/UserProvider.jsx</a>, <a href="contexts_UserProvider.jsx.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;UserProvider>  &lt;App />&lt;/UserProvider></code></pre>
+
+
+
+        
+            
+<h4 class="name" id="UsersPage"><span class="type-signature">(constant) </span>UsersPage<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Página de gestión de usuarios.Funcionalidades:- Muestra todos los usuarios del sistema en una tabla.- Permite ver detalles de un usuario en un modal.- Permite crear, editar, cambiar estado o eliminar usuarios (solo Admin).
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_PagesComun_UsersPage.jsx.html">pages/PagesComun/UsersPage.jsx</a>, <a href="pages_PagesComun_UsersPage.jsx.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="incidencias"><span class="type-signature">(constant) </span>incidencias<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Hook para manejar todas las operaciones relacionadas con incidencias.Este hook expone funciones para:- Listar incidencias según rol del usuario- Obtener una incidencia por ID- Crear incidencias y subir archivos- Cambiar estado o prioridad de una incidencia- Asignar jefe o técnico- Crear informes y descargar PDF de la incidencia
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hooks_incidencias.js.html">hooks/incidencias.js</a>, <a href="hooks_incidencias.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="maquinas"><span class="type-signature">(constant) </span>maquinas<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Hook personalizado para manejar todas las operaciones relacionadas con máquinasdel sistema: crear, actualizar, eliminar, cambiar estado y obtener máquinas.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hooks_maquinas.js.html">hooks/maquinas.js</a>, <a href="hooks_maquinas.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="userAuth"><span class="type-signature">(constant) </span>userAuth<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Hook personalizado para manejar autenticación y operaciones relacionadas con usuarios.Permite login, logout, gestión de usuarios y roles.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="hooks_userAuth.js.html">hooks/userAuth.js</a>, <a href="hooks_userAuth.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="conectar"><span class="type-signature">(async) </span>conectar<span class="signature">(urlApi, method<span class="signature-attributes">opt</span>, body<span class="signature-attributes">opt</span>, token<span class="signature-attributes">opt</span>, responseType<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;(Object|Blob|ArrayBuffer|Error)>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Función helper para realizar llamadas HTTP a la API
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>urlApi</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">URL del endpoint de la API</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'GET'
+                
+                </td>
+            
+
+            <td class="description last">Método HTTP ('GET', 'POST', 'PUT', 'DELETE', etc.)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">FormData</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">Cuerpo de la petición. Puede ser un objeto JSON o FormData para archivos</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Token JWT para autorización (opcional)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>responseType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'json'</span>
+|
+
+<span class="param-type">'blob'</span>
+|
+
+<span class="param-type">'arrayBuffer'</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    'json'
+                
+                </td>
+            
+
+            <td class="description last">Tipo de respuesta esperada   - 'json': Devuelve respuesta parseada a JSON (default)   - 'blob': Devuelve la respuesta como Blob (archivos binarios, imágenes, pdf)   - 'arrayBuffer': Devuelve la respuesta como ArrayBuffer (para manipulación de bytes)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_fetch.js.html">helpers/fetch.js</a>, <a href="helpers_fetch.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Retorna la respuesta de la API según `responseType`, o un objeto de error
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(Object|Blob|ArrayBuffer|Error)></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>// Llamada GET a la API con tokenconst datos = await conectar('/api/incidencias', 'GET', {}, miToken);</code></pre>
+
+    <pre class="prettyprint"><code>// Llamada POST con body JSONconst datos = await conectar('/api/incidencias', 'POST', { titulo: 'Prueba' }, miToken);</code></pre>
+
+    <pre class="prettyprint"><code>// Descargar archivo como Blobconst archivo = await conectar('/api/incidencias/1/pdf', 'GET', {}, miToken, 'blob');</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

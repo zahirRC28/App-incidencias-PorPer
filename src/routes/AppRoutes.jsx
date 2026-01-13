@@ -25,6 +25,20 @@ import { CrearMaquinaPage } from '../pages/CrearMaquinaPage'
 import { IncidenciaDetallesPage } from '../pages/PagesComun/IncidenciaDetallesPage'
 import { ActualizarMaquinaPage } from '../pages/ActualizarMaquinaPage'
 
+/**
+ * Componente de rutas principales de la aplicación.
+ * Define todas las rutas públicas y protegidas según el rol del usuario.
+ *
+ * Rutas principales:
+ * - /               -> LoginPage (protegida como pública)
+ * - /admin/*        -> Panel de administrador
+ * - /jefe/*         -> Panel de jefe
+ * - /tecnico/*      -> Panel de técnico
+ * - /cliente/*      -> Panel de cliente
+ *
+ * @component
+ * @returns {JSX.Element} Elemento JSX con la definición de rutas
+ */
 export const AppRoutes = () => {
   return (
     <Routes>

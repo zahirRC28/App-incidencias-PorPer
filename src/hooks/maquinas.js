@@ -4,6 +4,12 @@ import { userAuth } from "./userAuth";
 import { useState } from "react";
 const urlBase = import.meta.env.VITE_BACKEND_URL;
 
+/**
+ * Hook personalizado para manejar todas las operaciones relacionadas con máquinas
+ * del sistema: crear, actualizar, eliminar, cambiar estado y obtener máquinas.
+ *
+ * @returns {Object} Funciones y estados relacionados con las máquinas
+ */
 export const maquinas = () => {
     const { getRole, token } = userAuth();
     //console.log(token);
@@ -11,6 +17,14 @@ export const maquinas = () => {
     const userRol = getRole();
     const [mensaje, setMensaje] = useState(null);
     //console.log(uid);
+
+    /**
+   * Obtiene todas las máquinas según el rol del usuario.
+   * - Admin, Jefe, Técnico: todas las máquinas del sistema
+   * - Cliente: solo sus máquinas
+   * @param {number} userid Opcional, para filtrar máquinas por cliente específico
+   * @returns {Array} Lista de máquinas
+   */
     const todasMaquinas = async (userid = null) => {
     try {
         let info;
@@ -35,7 +49,14 @@ export const maquinas = () => {
         console.error('Error al cargar máquinas:', error);
         return [];
     }
-};
+    };
+
+    /**
+   * Cambia el estado de una máquina
+   * @param {number} id ID de la máquina
+   * @param {string} nombre Nuevo estado de la máquina
+   * @returns {Object} Respuesta del backend
+   */
     const cambiarEstadoMaquina = async(id,nombre)=>{
       //console.log(nombre);
       const data = {
@@ -46,6 +67,10 @@ export const maquinas = () => {
       return info
     }
 
+    /**
+   * Crea una nueva máquina
+   * @param {Object} datos Datos de la máquina a crear
+   */
     const crearMaquina = async(datos)=>{
       const info = await conectar(`${urlBase}maquina/crear`,'POST',datos, token);
       //console.log(info);
@@ -54,6 +79,12 @@ export const maquinas = () => {
       //return info
     }
 
+    /**
+   * Actualiza una máquina existente
+   * @param {number} id ID de la máquina
+   * @param {Object} datos Nuevos datos de la máquina
+   * @returns {Object} Respuesta del backend
+   */
     const actualizarMaquina = async (id, datos) => {
       //console.log(datos);
       //console.log(id);
@@ -67,10 +98,21 @@ export const maquinas = () => {
       return info;
     };
 
+    /**
+   * Busca una máquina por su ID
+   * @param {number} id ID de la máquina
+   * @returns {Object} Máquina encontrada o respuesta del backend
+   */
     const buscarMaquinaID = async (id) => {
       const info = await conectar(`${urlBase}maquina/maquina/${id}`,'GET',{},token);
       return info?.maquina ?? info;
     };
+
+    /**
+   * Elimina una máquina por su ID
+   * @param {number} id ID de la máquina
+   * @returns {Object} Respuesta del backend
+   */
     const eliminarMaquina = async(id)=>{
       const info = await conectar(`${urlBase}maquina/eliminar/${id}`,'DELETE',{},token);
       const { msg } = info

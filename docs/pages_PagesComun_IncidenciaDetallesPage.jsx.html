@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/PagesComun/IncidenciaDetallesPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/PagesComun/IncidenciaDetallesPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useParams } from "react-router-dom";
+import { incidencias } from "../../hooks/incidencias";
+import { useEffect, useState } from "react";
+import "../../styles/pages/detallesIncidencia.css"
+import { Modal } from "../../components/Modal";
+import { userAuth } from "../../hooks/userAuth";
+import { Button } from "../../components/ui/Button";
+import { maquinas } from "../../hooks/maquinas";
+
+/**
+ * Página para ver los detalles completos de una incidencia.
+ *
+ * Permite:
+ * - Visualizar datos de la incidencia (título, descripción, estado, prioridad, archivos, informes, etc.)
+ * - Cambiar estado o prioridad de la incidencia
+ * - Asignar técnico o jefe según rol
+ * - Descargar PDF de la incidencia
+ * - Crear informes
+ * - Ampliar foto principal en un modal
+ *
+ * Roles permitidos: Administrador, Jefe, Técnico, Cliente (solo lectura para Cliente)
+ *
+ * @component
+ * @returns {JSX.Element} Componente de detalle de incidencia
+ */
+
+export const IncidenciaDetallesPage = () => {
+    const { getRole, userPoRole, user, token } = userAuth();
+    const { id } = useParams();
+    const { IncidenciaPorId, 
+        obtenerInformesPorIncidencia, 
+        todosEstadosInci, 
+        todosPrioriInci, 
+        error, 
+        limpiarErrores, 
+        cambiarEstadoInci, 
+        cambiarPrioriInci, 
+        asignarJefe, 
+        asignarTecnico, 
+        crearInforme, 
+        descargarPdf,
+        mensaje,
+        limpiarMensaje 
+    } = incidencias();
+    const { cambiarEstadoMaquina } = maquinas();
+    const [datos, setDatos] = useState(null);
+    const [imagenAbierta, setImagenAbierta] = useState(false);
+
+    const [estadosList, setEstadosList]= useState([]);
+    const [prioriList, setPrioriList]= useState([]);
+    const [userList, setUserList]= useState([]);
+    const [informes, setInformes] = useState([]);
+
+    const [activarTecnicos, setActivarTenicos] = useState(false)
+    
+    const rol = getRole();   
+    /**
+   * Carga los datos de la incidencia y listas auxiliares según el rol.
+   */
+    const cargarDatos = async () => {
+        try {
+            const incidencia = await IncidenciaPorId(id);
+            setDatos(incidencia);
+
+            const informes = await obtenerInformesPorIncidencia(id);
+            setInformes(informes || []);
+
+            if (rol === 'Administrador' || rol === 'Jefe') {
+                const [
+                    prioridades,
+                    estados,
+                    usuarios
+                ] = await Promise.all([
+                    todosPrioriInci(),
+                    todosEstadosInci(),
+                    userPoRole("Tecnico")
+                ]);
+
+                setPrioriList(prioridades || []);
+                setEstadosList(estados || []);
+                setUserList(usuarios || []);
+            }
+            if (rol === 'Tecnico') {
+                const estados = await todosEstadosInci();
+                setEstadosList(estados || []);
+            }
+            limpiarMensaje();
+        } catch (error) {
+            console.error("Error cargando datos:", error);
+        }
+    };
+
+    /**
+   * Devuelve un valor o un texto por defecto si es null/undefined.
+   * @param {any} valor - Valor a mostrar
+   * @returns {string} Valor mostrado
+   */
+    const mostrarDato = (valor) => valor ?? "No tiene";
+
+    /**
+   * Formatea una fecha a formato "dd/mm/yyyy hh:mm".
+   * @param {string} fecha - Fecha en formato ISO
+   * @returns {string} Fecha formateada
+   */
+    //console.log(rol);
+    const formatFecha = (fecha) =>
+        new Date(fecha).toLocaleString("es-ES", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    // Carga inicial y recarga cuando cambian id, rol o usuario
+    useEffect(() => {
+        if (!rol || !user?.uid) return;
+            cargarDatos();
+    }, [id, rol, user]);
+
+    /**
+   * Cierra el modal de imagen.
+   */
+    const cerrarModal = ()=>{
+        setImagenAbierta(false);
+    }
+
+    /**
+   * Asigna el jefe actual a la incidencia y cambia su estado a "Asignada/Abierta".
+   */
+    const handleActualizarEstado = async()=>{
+        const result = await asignarJefe(id, user.uid)
+        if(result){
+            const resultado = await cambiarEstadoInci("Asignada/Abierta",id);
+            if(resultado){
+                await cargarDatos();
+            }
+        }
+    }
+
+    /**
+   * Cambia la prioridad de la incidencia y activa el selector de técnicos.
+   * @param {Event} ev - Evento submit del formulario
+   */
+    const handleActualizarPrioridad = async(ev)=>{
+        ev.preventDefault();
+        const prioridad_nombre = ev.target.prioridad_nombre.value;
+        //console.log(prioridad_nombre);
+        const result = await cambiarPrioriInci(prioridad_nombre, id);
+        if(result){
+            setActivarTenicos(true);
+        }
+        console.log(result);
+    }
+
+    /**
+   * Cambia el estado de la incidencia según el select.
+   * @param {Event} ev - Evento submit del formulario
+   */
+    const handleCambiarEstadoSubmit = async (ev) => {
+        ev.preventDefault();
+        const estado_nombre = ev.target.estado_nombre.value;
+        if (!estado_nombre) return;
+        const result = await cambiarEstadoInci(estado_nombre, id);
+        if (result) {
+            await cargarDatos();
+        }
+    }
+
+    /**
+   * Crea un informe asociado a la incidencia.
+   * Si es tipo "Resolución", también cambia estado de la incidencia y de la máquina.
+   * @param {Event} ev - Evento submit del formulario
+   */
+    const handleCrearInforme = async (ev) => {
+        ev.preventDefault();
+        const texto = ev.target.texto.value;
+        const tipo = ev.target.tipo.value;
+        if (!texto || !tipo) return;
+        const payload = {
+            texto,
+            tipo,
+            id_incidencia: Number(id),
+            id_tecnico: user?.uid ? Number(user.uid) : undefined
+        }
+        const info = await crearInforme(payload);
+        if(tipo === 'Resolucion'){
+            const result = await cambiarEstadoInci("Resuelta",id)
+            const result2 = await cambiarEstadoMaquina(datos.id_maquina, "Funcionando") 
+        }
+        if (info?.ok) {
+            await cargarDatos();
+        }
+    }
+
+    /**
+   * Asigna un técnico a la incidencia.
+   * @param {Event} ev - Evento submit del formulario
+   */
+    const handleAsignar = async (ev) => {
+        ev.preventDefault();
+        const id_tecnico = ev.target.tecnico_id?.value;
+        if (!id_tecnico) return;
+        await asignarTecnico(id, id_tecnico);
+        setActivarTenicos(false);
+        await cargarDatos();
+        limpiarErrores();
+    }
+
+    /**
+   * Descarga un PDF de la incidencia.
+   */
+    const handleDownloadPdf = () => {
+        descargarPdf(id)
+    }
+
+    // Renderizado
+    if (!datos ) {
+        return &lt;p>Cargando incidencia...&lt;/p>;
+    }
+
+    return (
+        &lt;>
+            &lt;div className="incidencia-detalles">
+                &lt;div className="incidencia-header">
+                    &lt;h2>{datos.titulo}&lt;/h2>
+                    &lt;span className={`badge estado`}>
+                    {mostrarDato(datos.estado_nombre)}
+                    &lt;/span>
+                    {(rol === 'Administrador' || rol === 'Jefe' || rol === 'Tecnico') &amp;&amp; (datos.estado_nombre === 'Resuelta') &amp;&amp; (
+                        &lt;button onClick={handleDownloadPdf}>Descargar PDF&lt;/button>
+                    )}
+                &lt;/div>
+                {/* Imagen */}
+            {datos.foto_url ? (
+                &lt;div className="imagen-incidencia">
+                &lt;img
+                    src={`${datos.foto_url}`}
+                    alt="Imagen de la incidencia"
+                    onClick={() => setImagenAbierta(true)}
+                />
+                &lt;span className="imagen-hint">Click para ampliar&lt;/span>
+                &lt;/div>
+            ): (
+                &lt;p>No tiene foto Principal&lt;/p>
+            )}
+
+                {/* Descripción */}
+                &lt;div className="infoDe">
+                    &lt;p className="infoDe-title">Descripción&lt;/p>
+                    &lt;p>{datos.descripcion}&lt;/p>
+                &lt;/div>
+                {/* Grid de datos */}
+                &lt;div className="infoDe-grid">
+                    &lt;div className="infoDe-item">
+                        &lt;p className="infoDe-label">Fecha&lt;/p>
+                        &lt;p className="infoDe-value">{datos.fecha_creacion ? formatFecha(datos.fecha_creacion) : mostrarDato(null)}&lt;/p>
+                    &lt;/div>
+
+                    &lt;div className="infoDe-item">
+                        &lt;p className="infoDe-label">Máquina&lt;/p>
+                        &lt;p className="infoDe-value">{mostrarDato(datos.maquina_nombre)}&lt;/p>
+                    &lt;/div>
+                    {(rol === 'Administrador' || rol === 'Jefe' || rol === 'Tecnico') &amp;&amp;(
+                        &lt;>
+                            &lt;div className="infoDe-item">
+                                &lt;p className="infoDe-label">Prioridad&lt;/p>
+                                &lt;p className="infoDe-value">{mostrarDato(datos.prioridad_nombre)}&lt;/p>
+                            &lt;/div>
+
+                            &lt;div className="infoDe-item">
+                                &lt;p className="infoDe-label">Creador&lt;/p>
+                                &lt;p className="infoDe-value">{mostrarDato(datos.creador_nombre)}&lt;/p>
+                            &lt;/div>
+
+                            &lt;div className="infoDe-item">
+                                &lt;p className="infoDe-label">Técnico&lt;/p>
+                                &lt;p className="infoDe-value">{mostrarDato(datos.tecnico_nombre)}&lt;/p>
+                            &lt;/div>
+
+                            &lt;div className="infoDe-item">
+                                &lt;p className="infoDe-label">Jefe&lt;/p>
+                                &lt;p className="infoDe-value">{mostrarDato(datos.jefe_nombre)}&lt;/p>
+                            &lt;/div>  
+                        &lt;/>
+                    )}
+
+                    {datos?.estado_nombre === 'Enviada' &amp;&amp; (rol === 'Administrador' || rol === 'Jefe') &amp;&amp; (
+                        &lt;>
+                            &lt;button onClick={handleActualizarEstado}>Empezar Asignacion&lt;/button>
+                        &lt;/>
+                    )}
+                    { datos?.estado_nombre === 'Asignada/Abierta' &amp;&amp; (rol === 'Administrador' || rol === 'Jefe') &amp;&amp;(
+                        &lt;>
+                            &lt;form onSubmit={handleActualizarPrioridad}>
+                                &lt;label>Prioridades&lt;/label>
+                                &lt;select name="prioridad_nombre">
+                                    &lt;option value="">Selecciona una Prioridad&lt;/option>
+                                    {(prioriList ?? []).map((priori, index) => (
+                                    &lt;option key={index} id={priori.id_prioridad_incidencia} value={priori.nombre}>{priori.nombre}&lt;/option>
+                                    ))}
+                                &lt;/select>
+                                {
+                                    error?.prioridad_nombre &amp;&amp; &lt;p className="Error">{error.prioridad_nombre.msg}&lt;/p>
+                                }
+                                &lt;Button text="Cambiar Prioridad" type="submit"/>
+                            &lt;/form>
+                        &lt;/>
+                    )}
+                    { activarTecnicos &amp;&amp; (rol === 'Administrador' || rol === 'Jefe') &amp;&amp; datos?.estado_nombre === 'Asignada/Abierta' &amp;&amp;(
+                        &lt;>
+                            &lt;form onSubmit={handleAsignar}>
+                                &lt;label>Técnicos&lt;/label>
+                                    &lt;select name="tecnico_id" defaultValue="">
+                                        &lt;option value="">Selecciona un Técnico&lt;/option>
+                                        {(userList ?? []).map((tec, index) => (
+                                            &lt;option key={index} value={tec.id_usuario || tec.uid}>
+                                                {tec.nombre_completo}
+                                            &lt;/option>
+                                        ))}
+                                    &lt;/select>
+                                { error?.id_tencino &amp;&amp; &lt;p className="Error">{error.id_tencino.msg || error.id_tencino}&lt;/p> }
+                                &lt;Button text="Asignar Técnico" type="submit"/>
+                            &lt;/form>
+                        &lt;/>
+                    )}
+            &lt;/div>
+                {/* Archivos */}
+            { datos.archivos?.length > 0 ? (
+                &lt;div className="infoDe">
+                    &lt;p className="infoDe-title">Archivos adjuntos&lt;/p>
+
+                    &lt;ul className="archivos-lista">
+                    {(datos.archivos ?? []).map((archivo) => (
+                        &lt;li key={archivo.id_archivo}>
+                        &lt;a href={`${archivo.url}`} download>
+                            📎 {archivo.nombre_original || 'Descargar archivo'}
+                        &lt;/a>
+                        &lt;/li>
+                    ))}
+                    &lt;/ul>
+                &lt;/div>
+            ):(
+                &lt;p>Esta incidencia no tiene archivos extra&lt;/p>
+            )}
+                {(rol === "Administrador" || rol === 'Jefe' || rol === 'Tecnico') &amp;&amp; (informes ?? []).length > 0 ? (
+                    &lt;div className="infoDe">
+                        &lt;p className="infoDe-title">Informes&lt;/p>
+                        &lt;ul className="informes-lista">
+                        {(informes ?? []).map((inf) => (
+                            &lt;li key={inf.id_informe || inf.id}>
+                                &lt;p>{inf.tipo} — {inf.tecnico_nombre || 'N/A'} — {inf.fecha ? formatFecha(inf.fecha) : ''}&lt;/p>
+                                &lt;p>{inf.texto}&lt;/p>
+                            &lt;/li>
+                        ))}
+                        &lt;/ul>
+                    &lt;/div>
+                ) : (
+                    (rol === "Administrador" || rol === "Jefe" || rol === "Tecnico") &amp;&amp; (
+                        &lt;p>No hay informes para esta incidencia&lt;/p>
+                    )
+                )}
+            &lt;/div>
+
+            &lt;Modal open={imagenAbierta} onClose={cerrarModal}>
+                &lt;img src={`${datos.foto_url}`} />
+            &lt;/Modal>
+
+            {/*Acciones para el tecnico*/}
+            {((rol === 'Administrador' || rol === 'Tecnico') &amp;&amp; (datos.estado_nombre !== 'Resuelta' ) &amp;&amp; (datos.tecnico_nombre) &amp;&amp; (datos.jefe_nombre) ) &amp;&amp; (
+                &lt;div className="TecnicoOpciones">
+                    &lt;form onSubmit={handleCambiarEstadoSubmit}>
+                        &lt;label>Cambiar Estado&lt;/label>
+                        &lt;select name="estado_nombre" defaultValue="">
+                            &lt;option value="">Selecciona un Estado&lt;/option>
+                            {estadosList.map((est, index) => (
+                                &lt;option key={index} value={est.nombre}>{est.nombre}&lt;/option>
+                            ))}
+                        &lt;/select>
+                        { error?.estado_nombre &amp;&amp; &lt;p className="Error">{error.estado_nombre.msg}&lt;/p> }
+                        &lt;Button text="Cambiar Estado" type="submit"/>
+                    &lt;/form>
+                    {mensaje &amp;&amp;(
+                        &lt;p>{mensaje}&lt;/p>
+                    )}
+
+                {(rol === 'Administrador' || rol === 'Tecnico') &amp;&amp; (datos.estado_nombre === 'En Pausa') &amp;&amp; (
+                    &lt;form onSubmit={handleCrearInforme} className="informe-form">
+                        &lt;label>Crear Informe&lt;/label>
+                        &lt;textarea name="texto" placeholder="Escribe el informe..." />
+                        &lt;label>Tipo&lt;/label>
+                        &lt;select name="tipo" defaultValue="">
+                            &lt;option value="">Selecciona tipo&lt;/option>
+                            &lt;option value="Pausa">Pausa&lt;/option>
+                            &lt;option value="Resolucion">Resolución&lt;/option>
+                        &lt;/select>
+                        { error?.texto &amp;&amp; &lt;p className="Error">{error.texto.msg}&lt;/p> }
+                        &lt;Button text="Crear Informe" type="submit"/>
+                    &lt;/form>
+                )}
+                {mensaje &amp;&amp;(
+                    &lt;p>{mensaje}&lt;/p>
+                )}
+                &lt;/div>
+            )}
+        &lt;/>
+        
+    )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -5,6 +5,17 @@ import { maquinas } from "../hooks/maquinas";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 
+/**
+ * Página para actualizar la información de una máquina.
+ *
+ * Funcionalidades:
+ * - Obtiene los datos de la máquina a actualizar según su `id`.
+ * - Permite cambiar nombre, modelo, prioridad recomendada y usuario asignado.
+ * - Muestra mensajes de éxito o error tras la actualización.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de la página de actualización de máquina
+ */
 export const ActualizarMaquinaPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -24,6 +35,9 @@ export const ActualizarMaquinaPage = () => {
     const [formError, setFormError] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    /**
+   * Carga los datos de la máquina y los usuarios tipo "Cliente"
+   */
     const cargarDatos = async () => {
         try {
         const dataMaquina = await buscarMaquinaID(id);
@@ -49,6 +63,12 @@ export const ActualizarMaquinaPage = () => {
         cargarDatos();
     }, [id]);
 
+    /**
+   * Maneja el envío del formulario para actualizar la máquina.
+   * Valida campos obligatorios y llama a la función `actualizarMaquina`.
+   * 
+   * @param {Event} ev Evento del formulario
+   */
     const handleSubmit = async (ev) => {
         ev.preventDefault();
 

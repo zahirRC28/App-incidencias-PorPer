@@ -6,7 +6,23 @@ import { Modal } from "../../components/Modal";
 import { userAuth } from "../../hooks/userAuth";
 import { Button } from "../../components/ui/Button";
 import { maquinas } from "../../hooks/maquinas";
-const urlBase = import.meta.env.VITE_IMG_URL;
+
+/**
+ * Página para ver los detalles completos de una incidencia.
+ *
+ * Permite:
+ * - Visualizar datos de la incidencia (título, descripción, estado, prioridad, archivos, informes, etc.)
+ * - Cambiar estado o prioridad de la incidencia
+ * - Asignar técnico o jefe según rol
+ * - Descargar PDF de la incidencia
+ * - Crear informes
+ * - Ampliar foto principal en un modal
+ *
+ * Roles permitidos: Administrador, Jefe, Técnico, Cliente (solo lectura para Cliente)
+ *
+ * @component
+ * @returns {JSX.Element} Componente de detalle de incidencia
+ */
 
 export const IncidenciaDetallesPage = () => {
     const { getRole, userPoRole, user, token } = userAuth();
@@ -38,7 +54,9 @@ export const IncidenciaDetallesPage = () => {
     const [activarTecnicos, setActivarTenicos] = useState(false)
     
     const rol = getRole();   
-    
+    /**
+   * Carga los datos de la incidencia y listas auxiliares según el rol.
+   */
     const cargarDatos = async () => {
         try {
             const incidencia = await IncidenciaPorId(id);
@@ -71,8 +89,19 @@ export const IncidenciaDetallesPage = () => {
             console.error("Error cargando datos:", error);
         }
     };
+
+    /**
+   * Devuelve un valor o un texto por defecto si es null/undefined.
+   * @param {any} valor - Valor a mostrar
+   * @returns {string} Valor mostrado
+   */
     const mostrarDato = (valor) => valor ?? "No tiene";
-     
+
+    /**
+   * Formatea una fecha a formato "dd/mm/yyyy hh:mm".
+   * @param {string} fecha - Fecha en formato ISO
+   * @returns {string} Fecha formateada
+   */
     //console.log(rol);
     const formatFecha = (fecha) =>
         new Date(fecha).toLocaleString("es-ES", {
@@ -83,14 +112,22 @@ export const IncidenciaDetallesPage = () => {
         minute: "2-digit",
     });
 
+    // Carga inicial y recarga cuando cambian id, rol o usuario
     useEffect(() => {
         if (!rol || !user?.uid) return;
             cargarDatos();
     }, [id, rol, user]);
 
+    /**
+   * Cierra el modal de imagen.
+   */
     const cerrarModal = ()=>{
         setImagenAbierta(false);
     }
+
+    /**
+   * Asigna el jefe actual a la incidencia y cambia su estado a "Asignada/Abierta".
+   */
     const handleActualizarEstado = async()=>{
         const result = await asignarJefe(id, user.uid)
         if(result){
@@ -100,6 +137,11 @@ export const IncidenciaDetallesPage = () => {
             }
         }
     }
+
+    /**
+   * Cambia la prioridad de la incidencia y activa el selector de técnicos.
+   * @param {Event} ev - Evento submit del formulario
+   */
     const handleActualizarPrioridad = async(ev)=>{
         ev.preventDefault();
         const prioridad_nombre = ev.target.prioridad_nombre.value;
@@ -111,6 +153,10 @@ export const IncidenciaDetallesPage = () => {
         console.log(result);
     }
 
+    /**
+   * Cambia el estado de la incidencia según el select.
+   * @param {Event} ev - Evento submit del formulario
+   */
     const handleCambiarEstadoSubmit = async (ev) => {
         ev.preventDefault();
         const estado_nombre = ev.target.estado_nombre.value;
@@ -121,6 +167,11 @@ export const IncidenciaDetallesPage = () => {
         }
     }
 
+    /**
+   * Crea un informe asociado a la incidencia.
+   * Si es tipo "Resolución", también cambia estado de la incidencia y de la máquina.
+   * @param {Event} ev - Evento submit del formulario
+   */
     const handleCrearInforme = async (ev) => {
         ev.preventDefault();
         const texto = ev.target.texto.value;
@@ -142,6 +193,10 @@ export const IncidenciaDetallesPage = () => {
         }
     }
 
+    /**
+   * Asigna un técnico a la incidencia.
+   * @param {Event} ev - Evento submit del formulario
+   */
     const handleAsignar = async (ev) => {
         ev.preventDefault();
         const id_tecnico = ev.target.tecnico_id?.value;
@@ -152,10 +207,14 @@ export const IncidenciaDetallesPage = () => {
         limpiarErrores();
     }
 
+    /**
+   * Descarga un PDF de la incidencia.
+   */
     const handleDownloadPdf = () => {
         descargarPdf(id)
     }
 
+    // Renderizado
     if (!datos ) {
         return <p>Cargando incidencia...</p>;
     }

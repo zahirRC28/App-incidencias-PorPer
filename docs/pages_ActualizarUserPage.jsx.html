@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/ActualizarUserPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/ActualizarUserPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { userAuth } from "../hooks/userAuth";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
+import imgContra from "../assets/imgContra.svg";
+import imgCorreo from "../assets/imgCorreo.svg";
+
+/**
+ * Página para actualizar un usuario del sistema.
+ *
+ * Funcionalidades:
+ * - Carga los datos del usuario según su `id`.
+ * - Permite actualizar nombre, correo, contraseña y rol.
+ * - Muestra mensajes de error y éxito tras la actualización.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de actualización de usuario
+ */
+export const ActualizarUserPage = () => {
+    const { id } = useParams();
+    const { traerUsuario, actualizarUser, error, mensaje, todosRoles } = userAuth();
+    const [usuario, setUsuario] = useState(
+        {
+            nombre_completo: "",
+            correo: "",
+            contrasenia_hash: "",
+            id_rol: null
+        }
+    );
+    const [formError, setFormError] = useState(null);
+    const [roles, setRoles] = useState([])
+    const [rolSeleccionado, setRolSeleccionado] = useState("");
+
+    /**
+   * Carga todos los roles disponibles
+   */
+    const cargandoRoles = async()=>{
+        const datos = await todosRoles();
+        setRoles(datos);
+        //console.log(datos);
+    }
+
+    /**
+   * Carga los datos del usuario según su ID
+   */
+    const cargarUsuario = async () => {
+        const data = await traerUsuario(id);
+        //console.log(data);
+        setUsuario(data);
+    };
+    useEffect(() => {
+        if (usuario &amp;&amp; roles.length > 0) {
+            //buscar el rol correspondiente al id_rol del usuario
+            const rol = roles.find(r => r.id_rol === usuario.id_rol);
+            //si se encuentra el rol, actualizar el estado del rol seleccionado
+            if (rol) {
+                setRolSeleccionado(rol.nombre);
+            }
+        }
+    }, [usuario, roles]);
+    useEffect(() => {
+        cargandoRoles();
+        cargarUsuario();
+    }, [id]);
+
+    //const buscandoRoles = (roles.find(rol => rol.id_rol === usuario.id_rol));
+    //const rolUser = buscandoRoles ? buscandoRoles.nombre : '';
+    //console.log(rolUser);
+
+    /**
+   * Maneja el envío del formulario para actualizar el usuario.
+   * Valida campos obligatorios y llama a la función `actualizarUser`.
+   *
+   * @param {Event} ev Evento de envío del formulario
+   */
+    const handleSubmit = (ev) => {
+        ev.preventDefault();
+        const nombre = ev.target.nombre.value;
+        const correo = ev.target.email.value;
+        const rol = ev.target.rol.value;
+        const contrasenia = ev.target.password.value;
+        //console.log({ nombre, correo, contrasenia, rol });
+        if (!correo || !nombre) {
+            setFormError("Completa todos los campos");
+            return
+        }
+        setFormError(null);
+        const nuevoUser = {
+            "id": id,
+            "nombre":nombre,
+            "correo":correo,
+            "contrasenia":contrasenia,
+            "rol":rol
+        }
+        actualizarUser(nuevoUser);
+    }
+    
+  return (
+    &lt;>
+        &lt;h2>{`Actualizar Usuario:  ${usuario.nombre_completo}`}&lt;/h2>
+        &lt;form  onSubmit={handleSubmit}>
+            &lt;Input labeltext={"Nombre Completo:"} 
+                type="text" name="nombre" 
+                placeholder="escribe aqui tu nombre" 
+                icon={&lt;img src={imgCorreo} alt="nombre" />}
+                valor={usuario.nombre_completo}
+            />
+            &lt;Input labeltext={"Correo Electrónico:"} 
+                type="text" name="email" 
+                placeholder="tu@email.com"
+                icon={&lt;img src={imgCorreo} alt="Correo" />}
+                valor={usuario.correo}
+            />
+            {error?.correo &amp;&amp; (
+                &lt;p className="error">{error.correo.msg}&lt;/p>
+            )}
+            &lt;Input labeltext={"Contraseña:"} 
+                type="text" name="password" 
+                placeholder="••••••••"
+                icon={&lt;img src={imgContra} alt="Contraseña" />}
+            />
+            {error?.contrasenia &amp;&amp; (
+                &lt;p className="error">{error.contrasenia.msg}&lt;/p>
+            )}
+            &lt;p>Roles:&lt;/p>
+            {roles.length > 0 &amp;&amp; (
+                //usamos el onChange para actualizar el estado del rol seleccionado
+            &lt;select name="rol" className="select-rol" value={rolSeleccionado} onChange={(e) => setRolSeleccionado(e.target.value)}>
+                {roles.map((rol) => (
+                &lt;option key={rol.id_rol} value={rol.nombre}>
+                    {rol.nombre}
+                &lt;/option>
+                ))}
+            &lt;/select>
+            )}
+            {formError &amp;&amp; (
+                &lt;p className="error">{formError}&lt;/p>
+            )}
+            {error &amp;&amp; (
+                &lt;p className="error">{error}&lt;/p>
+            )}
+            {mensaje &amp;&amp; &lt;p className="success">{mensaje}&lt;/p>}
+            &lt;Button text="Actualizar" type="submit" />
+        &lt;/form>
+            
+    &lt;/>
+    
+  )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

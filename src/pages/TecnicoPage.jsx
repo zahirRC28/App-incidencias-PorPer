@@ -8,6 +8,12 @@ import { maquinas } from "../hooks/maquinas";
 import maquinasIcon from "../assets/dashboard/maquinasIcon.svg";
 import incidenciasIcon from "../assets/dashboard/incidenciasIcon.svg";
 
+
+/**
+ * Panel de gestión para técnicos
+ * @component
+ * @returns {JSX.Element} Dashboard para técnicos con estadísticas, tablas y modales de detalle.
+ */
 export const TecnicoPage = () => {
   const { todasIncidencias } = incidencias();
   const { todasMaquinas } = maquinas();
@@ -21,6 +27,10 @@ export const TecnicoPage = () => {
   const [openMaqui, setOpenMaqui] = useState(false);
   const [selectedMaqui, setSelectedMaqui] = useState(null);
 
+  /**
+   * Carga las incidencias y máquinas desde el backend
+   * Actualiza estados de carga y manejo de errores
+   */
   const cargarDatos = async () => {
     setLoading(true);
     try {
@@ -47,6 +57,10 @@ export const TecnicoPage = () => {
     { key: "prioridad_nombre", label: "Prioridad" }
   ];
 
+  /**
+   * Manejador de clic en incidencia para abrir modal
+   * @param {Object} inci Incidencia seleccionada
+   */
   const handleInciClick = (inci) => { setSelectedInci(inci); setOpenInci(true); }
 
   return (

@@ -5,6 +5,10 @@ import conectar from "../helpers/fetch";
 
 const urlBase = import.meta.env.VITE_BACKEND_URL;
 
+/**
+ * Hook personalizado para manejar autenticación y operaciones relacionadas con usuarios.
+ * Permite login, logout, gestión de usuarios y roles.
+ */
 export const userAuth = () => {
 
     const { login, logout, user, token } = useContext(UserContext);
@@ -12,6 +16,10 @@ export const userAuth = () => {
     const [mensaje, setMensaje] = useState(null);
 
      // ---------------- LOGIN ---------------- //
+     /**
+   * Inicia sesión en el sistema
+   * @param {Object} datos { correo, contrasenia }
+   */
     const loginUser = async(datos) =>{
         //console.log(datos);
         const info = await conectar(`${urlBase}auth/login`, 'POST',datos);
@@ -25,7 +33,10 @@ export const userAuth = () => {
             //console.log(error);
         }
     }
-    
+
+    /**
+   * Cierra sesión del usuario actual
+   */
     const logoutUser = () =>{
         logout();
     }
@@ -41,6 +52,12 @@ export const userAuth = () => {
     };
 
     // ---------------- UTILIDADES ----------------//
+    
+    /**
+   * Obtiene el rol del usuario a partir del token
+   * @returns {string|null} Rol del usuario o null si expiró o es inválido
+   */
+
     const getRole = () =>{
         if(!token) return null;
         try{
@@ -57,6 +74,11 @@ export const userAuth = () => {
     }
 
     // ---------------- USUARIOS ----------------//
+    
+    /**
+   * Obtiene todos los usuarios del sistema
+   * @returns {Array} Lista de usuarios
+   */
     const todosUser = async()=>{
         const info = await conectar(`${urlBase}user/todosUsuarios/${user.uid}`,'GET',{},token);
         //----------renewToken();
@@ -65,6 +87,11 @@ export const userAuth = () => {
         console.log(usuarios);
         return usuarios;
     }
+
+    /**
+   * Crea un nuevo usuario
+   * @param {Object} datos Datos del usuario
+   */
     const crearUsuario = async(datos) =>{
         //console.log(datos);
         const info = await conectar(`${urlBase}user/crear`,'POST',datos,token);
@@ -77,12 +104,23 @@ export const userAuth = () => {
             setError(info.msg || "Error al crear usuario");
         }
     }
+
+    /**
+   * Obtiene un usuario por su ID
+   * @param {number} idUser ID del usuario
+   * @returns {Object} Usuario encontrado
+   */
     const traerUsuario = async(idUser)=>{
         const info = await conectar(`${urlBase}user/usuario/${idUser}`,'GET',{},token);
         //console.log(info);
         const { usuario } = info
         return usuario;
     }
+
+    /**
+   * Obtiene todos los roles
+   * @returns {Array} Lista de roles
+   */
     const todosRoles = async()=>{
         const info = await conectar(`${urlBase}user/todosRoles`,'GET',{},token);
         //console.log(info)
@@ -90,6 +128,10 @@ export const userAuth = () => {
         return roles;
     }
 
+    /**
+   * Actualiza un usuario existente
+   * @param {Object} datos { id, nombre, correo, contrasenia, rol }
+   */
     const actualizarUser = async(datos)=>{
         console.log(datos);
         const info = await conectar(`${urlBase}user/actualizar/${datos.id}`,'PUT',datos,token)
@@ -103,6 +145,11 @@ export const userAuth = () => {
         }
     }
 
+    /**
+   * Elimina un usuario
+   * @param {number} idUser ID del usuario
+   * @param {string} email Email del usuario
+   */
     const eliminarUser = async(idUser, email)=>{
         //console.log(idUser);
         //console.log(email);
@@ -117,6 +164,11 @@ export const userAuth = () => {
             setError(null)
         }
     }
+
+    /**
+   * Cambia el estado (activo/inactivo) de un usuario
+   * @param {number} idUser ID del usuario
+   */
     const estadoUser = async(idUser)=>{
         const info = await conectar(`${urlBase}user/cambiarEstado/${idUser}`,'PUT',{},token)
         console.log(info)
@@ -126,6 +178,12 @@ export const userAuth = () => {
             setError(null);
         }
     }
+
+    /**
+   * Obtiene usuarios por rol específico
+   * @param {string} nombreRol Nombre del rol
+   * @returns {Array} Lista de usuarios
+   */
     const userPoRole = async(nombreRol)=>{
         //console.log(nombreRol);
         const dato = {
@@ -138,6 +196,9 @@ export const userAuth = () => {
         return usuarios;
     }
 
+    /**
+   * Limpia los mensajes de éxito
+   */
     const limpiarMensaje = () => setMensaje(null);
 
   return {

@@ -1,6 +1,18 @@
 import { Navigate } from "react-router-dom";
 import { userAuth } from "../../hooks/userAuth";
 
+/**
+ * Componente de protección de rutas públicas
+ *
+ * Evita que un usuario autenticado acceda a rutas públicas (ej. login, registro),
+ * redirigiéndolo a su ruta correspondiente según su rol.
+ *
+ * @param {Object} props - Props del componente.
+ * @param {JSX.Element} props.children - Componente(s) hijos que se van a renderizar si el usuario no está autenticado.
+ *
+ * @returns {JSX.Element} Componente hijo si no hay token, o redirección según rol.
+ */
+
 export const PublicProtection = ({ children }) => {
   const { token, getRole } = userAuth();
 

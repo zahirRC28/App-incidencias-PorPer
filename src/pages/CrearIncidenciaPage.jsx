@@ -7,6 +7,13 @@ import { Input } from "../components/ui/Input";
 import { userAuth } from "../hooks/userAuth";
 import '../styles/pages/CrearIncidenciaPage.css';
 
+/**
+ * Página para crear una incidencia en el sistema
+ * - Admin: puede seleccionar usuario y ver máquinas del usuario
+ * - Cliente: solo puede seleccionar máquinas propias
+ * Permite subir un archivo principal y un archivo adjunto.
+ */
+
 export const CrearIncidenciaPage = () => {
     const { todasMaquinas } = maquinas();
     const { crearIncidenciaConArchivos, mensaje, errorSolo, limpiarErrores } = incidencias();
@@ -25,7 +32,11 @@ export const CrearIncidenciaPage = () => {
 
 
     //console.log(error);
-
+    /**
+     * Carga inicial de datos
+     * - Admin → obtener lista de clientes
+     * - Otros roles → obtener máquinas propias
+     */
     const cargadorDatos = async () => {
       if (rol === "Administrador") {
         const dataUsers = await userPoRole("Cliente");
@@ -42,7 +53,12 @@ export const CrearIncidenciaPage = () => {
       cargadorDatos();
     }, []);
 
-
+    /**
+     * Maneja el envío del formulario
+     * - Valida campos obligatorios: título, descripción y máquina
+     * - Solo admin puede elegir usuario
+     * - Llama al hook de incidencias para crear la incidencia con archivos
+     */
     const handleSubmit = async (ev) => {
         ev.preventDefault();
         setMensajePage(null);
@@ -70,6 +86,11 @@ export const CrearIncidenciaPage = () => {
           archivoAdjunto: adjuntoFile
         });
     };
+
+    /**
+     * Maneja el cambio de usuario (solo admin)
+     * - Filtra máquinas según el usuario seleccionado
+     */
     const handleUserChange = async (ev) => {
       const userId = ev.target.value;
       setUsuarioSeleccionado(userId);

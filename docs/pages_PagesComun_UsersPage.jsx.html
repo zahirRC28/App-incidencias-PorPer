@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/PagesComun/UsersPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/PagesComun/UsersPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
+import { DataTable } from "../../components/dashboard/DataTable"
+import { Modal } from "../../components/Modal"
+import "../../styles/pages/user.css"
+import { userAuth } from "../../hooks/userAuth";
+import { useNavigate } from "react-router-dom";
+
+/**
+ * Página de gestión de usuarios.
+ *
+ * Funcionalidades:
+ * - Muestra todos los usuarios del sistema en una tabla.
+ * - Permite ver detalles de un usuario en un modal.
+ * - Permite crear, editar, cambiar estado o eliminar usuarios (solo Admin).
+ *
+ * @component
+ * @returns {JSX.Element} Componente de la página de usuarios
+ */
+export const UsersPage = () => {
+    const { todosUser, eliminarUser, estadoUser, mensaje, limpiarMensaje } = userAuth();
+    const [loading, setLoading] = useState(false);
+    const [datos, setDatos] = useState([]);
+    const [error, setError] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [confirmacion, setConfirmacion] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const navigate = useNavigate();
+    const crear = '/admin/users/crear';
+
+    /**
+   * Carga todos los usuarios y actualiza el estado `datos`.
+   */
+    const cargarDatos = async () => {
+        setLoading(true);
+        try {
+        const usuarios = await todosUser();
+        //console.log(usuarios);
+        setDatos(usuarios);
+        } catch (error) {
+        console.log(error);
+        setError("Error al cargar los datos.");
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        cargarDatos();
+    }, []);
+    
+    useEffect(() => {
+        if (mensaje) {
+        // Recargar los datos después de una acción exitosa
+        cargarDatos();
+        }
+    }, [mensaje]);
+
+    /**
+   * Columnas de la tabla de usuarios.
+   * Incluye render personalizado para estado y rol con estilos.
+   */
+    const userColumns = [
+        { key: "nombre_completo", label: "Nombre" },
+        {
+        key: "rol_nombre", label: "Rol",
+        //uso el render para personalizar el contenido de la celda
+        //y darle estilos segun el rol
+        render: (user) => (
+            &lt;span className={`rol ${user.rol_nombre.toLowerCase()}`}>
+            {user.rol_nombre}
+            &lt;/span>
+        )
+        },
+        { key: "correo", label: "Email" },
+        { key: "fecha_ingreso", label: "fecha-ingreso" },
+        { key: "activo", label: "Estado" ,
+            render: (user) => user.activo ? "Activo" : "Inactivo"
+        },
+        { key: "fecha_baja", label: "fecha-baja" }
+    ];
+
+    /**
+   * Maneja el clic sobre un usuario.
+   * Abre el modal de detalles.
+   * @param {Object} dato Usuario seleccionado
+   */
+    const handleUserClick = (dato) => {
+    //console.log("Usuario seleccionado:", dato);
+    setSelectedUser(dato);
+    setOpen(true)
+    };
+
+    /**
+   * Elimina el usuario seleccionado.
+   * Cierra modales y limpia la selección después de 1.5s.
+   */
+    const handleEliminarUser =() =>{
+        eliminarUser(selectedUser.id_usuario, selectedUser.correo);
+        //poner un temporizador para cerrar el modal despues de eliminar y mostrar el mensaje
+        setTimeout(()=>{
+            limpiarMensaje();
+            setOpen(false);
+            setConfirmacion(false);
+            setSelectedUser(null);
+        },1500);
+    }
+
+    /**
+   * Cambia el estado (activo/inactivo) del usuario seleccionado.
+   * Cierra modal automáticamente después de 1.5s.
+   */
+    const handleEstadoUser =() =>{
+        estadoUser(selectedUser.id_usuario);
+        //poner un temporizador para cerrar el modal despues de eliminar y mostrar el mensaje
+        setTimeout(()=>{
+            limpiarMensaje();
+            setOpen(false);
+        },1500);
+    }
+
+    /**
+   * Cierra el modal de detalle del usuario.
+   */
+    const handleCerrarModal = () =>{
+        setOpen(false);
+        setSelectedUser(null);
+    }
+
+    /**
+   * Abre modal de confirmación para eliminar usuario.
+   */
+    const handleConfirmacion = () =>{
+        setConfirmacion(true);
+    }
+  return (
+    &lt;>
+        &lt;h2>Usuarios del sistema&lt;/h2>
+        &lt;p>Gestión de usuarios registrados en el sistema&lt;/p>
+        &lt;button onClick={() => navigate(crear)}>Crear Usuario&lt;/button>
+        {error &amp;&amp; &lt;p style={{ color: "red" }}>{error}&lt;/p>}
+        &lt;DataTable
+            title="Usuarios del sistema"
+            columnas={userColumns}
+            data={datos}
+            onClickInfo={(user) => handleUserClick(user)}
+        />
+        {loading &amp;&amp; &lt;p>Cargando datos...&lt;/p>}
+        &lt;Modal open={open} onClose={handleCerrarModal}>
+            &lt;h2>Detalle del Usuario&lt;/h2>
+            {selectedUser &amp;&amp; (
+                &lt;>
+                    &lt;div className="info">
+                        &lt;p>ID:{selectedUser.id_usuario}&lt;/p>
+                        &lt;p>Nombre:{selectedUser.nombre_completo}&lt;/p>
+                        &lt;p>Rol: {selectedUser.rol_nombre}&lt;/p>
+                        &lt;p>Email: {selectedUser.correo}&lt;/p>
+                        &lt;p>fecha-ingreso: {selectedUser.correo}&lt;/p>
+                    &lt;/div>
+                    {
+                        mensaje &amp;&amp; &lt;p style={{ color: "green" }}>{mensaje}&lt;/p>
+                    }
+                    &lt;button onClick={() => navigate(`/admin/users/actualizar/${selectedUser.id_usuario}`)}>Editar&lt;/button>
+                    &lt;button onClick={handleEstadoUser}>Cambiar Estado&lt;/button>
+                    &lt;button onClick={handleConfirmacion}>Eliminar&lt;/button>
+                    &lt;button onClick={handleCerrarModal}>Cancelar&lt;/button>
+                &lt;/>
+            )}
+        &lt;/Modal>
+        &lt;Modal open={confirmacion} onClose={() => setConfirmacion(false)}>
+            &lt;h2>Seguro que quieres eliminar el usuario?&lt;/h2>
+            {
+                mensaje &amp;&amp; &lt;p style={{ color: "green" }}>{mensaje}&lt;/p>
+            }
+            &lt;button onClick={handleEliminarUser}>Eliminar&lt;/button>
+            &lt;button onClick={() => setConfirmacion(false)}>Cancelar&lt;/button>
+        &lt;/Modal>
+    &lt;/>
+  )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

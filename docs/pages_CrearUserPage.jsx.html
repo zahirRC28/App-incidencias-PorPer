@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/CrearUserPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/CrearUserPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
+import imgContra from "../assets/imgContra.svg";
+import imgCorreo from "../assets/imgCorreo.svg";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input"
+import { userAuth } from "../hooks/userAuth";
+import "../styles/pages/crearUser.css";
+
+/**
+ * Página para crear un nuevo usuario en el sistema
+ * - Permite asignar un rol al usuario
+ * - Valida campos requeridos
+ * - Muestra errores y mensajes de éxito
+ */
+export const CrearUserPage = () => {
+    const { todosRoles, crearUsuario, error, mensaje } = userAuth();
+    const [roles, setRoles] = useState([])
+    const [formError, setFormError] = useState(null);
+    
+    /**
+     * Carga inicial de roles desde el backend
+     * - Llama a la función `todosRoles` del hook userAuth
+     */
+    const cargandoRoles = async()=>{
+        const datos = await todosRoles();
+        setRoles(datos);
+        //console.log(datos);
+    }
+    useEffect(()=>{
+        cargandoRoles()
+    }, [])
+
+    /**
+     * Maneja el envío del formulario
+     * - Recoge los valores de nombre, correo, contraseña y rol
+     * - Valida que nombre, correo y contraseña no estén vacíos
+     * - Llama a la función `crearUsuario` para crear el usuario
+     */
+    const handleSubmit = (ev) => {
+        ev.preventDefault();
+        const nombre = ev.target.nombre.value;
+        const correo = ev.target.email.value;
+        const contrasenia = ev.target.password.value;
+        const rol = ev.target.rol.value;
+        //console.log({ nombre, correo, contrasenia, rol });
+        if (!correo || !contrasenia) {
+            setFormError("Completa todos los campos");
+            return
+        }
+        setFormError(null);
+        const datos = {
+            "nombre":nombre,
+            "correo":correo,
+            "contrasenia":contrasenia,
+            "rol":rol
+        }
+        crearUsuario(datos);
+    }
+    
+     return (
+        &lt;>
+            &lt;h2>Crear Usuario&lt;/h2>
+            &lt;form  onSubmit={handleSubmit}>
+                &lt;Input labeltext={"Nombre Completo:"} 
+                type="text" name="nombre" 
+                placeholder="escribe aqui tu nombre"
+                />
+                &lt;Input labeltext={"Correo Electrónico:"} 
+                    type="text" name="email" 
+                    placeholder="tu@email.com"
+                icon={&lt;img src={imgCorreo} alt="Correo" />}
+                />
+                {error?.correo &amp;&amp; (
+                    &lt;p className="error">{error.correo.msg}&lt;/p>
+                )}
+                &lt;Input labeltext={"Contraseña:"} 
+                    type="text" name="password" 
+                    placeholder="••••••••"
+                icon={&lt;img src={imgContra} alt="Contraseña" />}
+                />
+                {error?.contrasenia &amp;&amp; (
+                    &lt;p className="error">{error.contrasenia.msg}&lt;/p>
+                )}
+                &lt;p>Roles:&lt;/p>
+                &lt;select name="rol" className="select-rol">
+                    {
+                        roles.map((rol, index)=>(
+                            &lt;option key={index} id={rol.id_rol} value={rol.nombre}>{rol.nombre}&lt;/option>
+                        ))
+                    }
+                &lt;/select>
+                {formError &amp;&amp; (
+                    &lt;p className="error">{formError}&lt;/p>
+                )}
+                {error &amp;&amp; (
+                    &lt;p className="error">{error}&lt;/p>
+                )}
+                {mensaje &amp;&amp; &lt;p className="success">{mensaje}&lt;/p>}
+                &lt;Button text="Crear Usuario" type="submit" />
+            &lt;/form>
+        
+        &lt;/>
+  )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

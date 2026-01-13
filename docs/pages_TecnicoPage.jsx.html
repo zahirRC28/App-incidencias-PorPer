@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/TecnicoPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/TecnicoPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState, useEffect } from "react";
+
+import { StatCard } from "../components/dashboard/StatCard";
+import { DataTable } from "../components/dashboard/DataTable";
+import { Modal } from "../components/Modal";
+import { incidencias } from "../hooks/incidencias";
+import { maquinas } from "../hooks/maquinas";
+import maquinasIcon from "../assets/dashboard/maquinasIcon.svg";
+import incidenciasIcon from "../assets/dashboard/incidenciasIcon.svg";
+
+
+/**
+ * Panel de gestión para técnicos
+ * @component
+ * @returns {JSX.Element} Dashboard para técnicos con estadísticas, tablas y modales de detalle.
+ */
+export const TecnicoPage = () => {
+  const { todasIncidencias } = incidencias();
+  const { todasMaquinas } = maquinas();
+
+  const [loading, setLoading] = useState(false);
+  const [datosInci, setDatosInci] = useState([]);
+  const [datosMaqui, setDatosMaqui] = useState([]);
+  const [error, setError] = useState(null);
+  const [openInci, setOpenInci] = useState(false);
+  const [selectedInci, setSelectedInci] = useState(null);
+  const [openMaqui, setOpenMaqui] = useState(false);
+  const [selectedMaqui, setSelectedMaqui] = useState(null);
+
+  /**
+   * Carga las incidencias y máquinas desde el backend
+   * Actualiza estados de carga y manejo de errores
+   */
+  const cargarDatos = async () => {
+    setLoading(true);
+    try {
+      const [incidenciasData, maquinasData] = await Promise.all([
+        todasIncidencias(),
+        todasMaquinas()
+      ]);
+      setDatosInci(incidenciasData || []);
+      setDatosMaqui(maquinasData || []);
+    } catch (err) {
+      console.error(err);
+      setError('Error al cargar datos.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => { cargarDatos(); }, []);
+
+  const incidenciasColumns = [
+    { key: "titulo", label: "Título" },
+    { key: "estado_nombre", label: "Estado" },
+    { key: "fecha_creacion", label: "Fecha" },
+    { key: "prioridad_nombre", label: "Prioridad" }
+  ];
+
+  /**
+   * Manejador de clic en incidencia para abrir modal
+   * @param {Object} inci Incidencia seleccionada
+   */
+  const handleInciClick = (inci) => { setSelectedInci(inci); setOpenInci(true); }
+
+  return (
+    &lt;>
+      &lt;h1>Panel Técnico&lt;/h1>
+      &lt;p>Herramientas y gestión para Técnicos&lt;/p>
+
+      &lt;div className="stats-grid">
+        &lt;StatCard title="Mis Incidencias" value={datosInci.length} icon={incidenciasIcon} color="green" />
+        &lt;StatCard title="Máquinas" value={datosMaqui.length} icon={maquinasIcon} color="gray" />
+      &lt;/div>
+
+      {error &amp;&amp; &lt;p style={{ color: 'red' }}>{error}&lt;/p>}
+
+      &lt;DataTable
+        title="Incidencias"
+        columnas={incidenciasColumns}
+        data={datosInci}
+        onClickInfo={handleInciClick}
+        todos={'/tecnico/incidencias'}
+      />
+
+      &lt;DataTable
+        title="Máquinas"
+        columnas={[
+          { key: 'nombre', label: 'Nombre' },
+          { key: 'modelo', label: 'Modelo' },
+          { key: 'estado_nombre', label: 'Estado' }
+        ]}
+        data={datosMaqui}
+        onClickInfo={(m) => { setSelectedMaqui(m); setOpenMaqui(true); }}
+        todos={'/tecnico/maquinas'}
+      />
+
+      {loading &amp;&amp; &lt;p>Cargando datos...&lt;/p>}
+
+      &lt;Modal open={openInci} onClose={() => setOpenInci(false)}>
+        &lt;h2>Detalle de la Incidencia&lt;/h2>
+        {selectedInci ? (
+          &lt;div className="info">
+            &lt;p>Título: {selectedInci.titulo}&lt;/p>
+            &lt;p>Descripción: {selectedInci.descripcion}&lt;/p>
+            &lt;p>Estado: {selectedInci.estado_nombre}&lt;/p>
+            &lt;p>Prioridad: {selectedInci.prioridad_nombre}&lt;/p>
+          &lt;/div>
+        ) : &lt;p>No hay incidencia seleccionada.&lt;/p>}
+        &lt;button onClick={() => setOpenInci(false)}>Cerrar&lt;/button>
+      &lt;/Modal>
+
+      &lt;Modal open={openMaqui} onClose={() => setOpenMaqui(false)}>
+        &lt;h2>Detalle de la Máquina&lt;/h2>
+        {selectedMaqui ? (
+          &lt;div className="info">
+            &lt;p>Nombre: {selectedMaqui.nombre}&lt;/p>
+            &lt;p>Modelo: {selectedMaqui.modelo}&lt;/p>
+            &lt;p>Estado: {selectedMaqui.estado_nombre}&lt;/p>
+          &lt;/div>
+        ) : &lt;p>No hay máquina seleccionada.&lt;/p>}
+        &lt;button onClick={() => setOpenMaqui(false)}>Cerrar&lt;/button>
+      &lt;/Modal>
+    &lt;/>
+  )
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -33,7 +33,11 @@ import mantenimientosIcon from "../assets/dashboard/mantenimientoIcon.svg";
 import usuariosIcon from "../assets/dashboard/usuariosIcon.svg";
 import "../styles/graficos.css"
 
-
+/**
+ * Página principal del panel de administración
+ * @component
+ * @returns {JSX.Element} Renderiza el dashboard con estadísticas, tablas, gráficos y modales de detalle.
+ */
 export const AdminPage = () => {
   const { todosUser } = userAuth();
   const { todasIncidencias } = incidencias();
@@ -50,6 +54,11 @@ export const AdminPage = () => {
   const [selectMaquina, setSelectMaquina] = useState(null);
   const [selectInci, setSelectInci] = useState(null);
   
+  /**
+ * Página principal del panel de administración
+ * @component
+ * @returns {JSX.Element} Renderiza el dashboard con estadísticas, tablas, gráficos y modales de detalle.
+ */
   const cargarDatos = async () => {
     setLoading(true);
     try {
@@ -72,6 +81,7 @@ export const AdminPage = () => {
     cargarDatos();
   }, []);
 
+  /** Columnas para la tabla de usuarios */
   const userColumns = [
     { key: "nombre_completo", label: "Nombre" },
     {
@@ -87,34 +97,52 @@ export const AdminPage = () => {
     { key: "correo", label: "Email" }
   ];
 
+  /** Columnas para la tabla de incidencias */
   const incidenciasColums = [
     { key: "titulo", label: "Título" },
     { key: "estado_nombre", label: "Estado" },
     { key: "fecha_creacion", label: "Fecha de Creación" },
     { key: "maquina_nombre", label: "Maquina"}
   ];
+
+  /** Columnas para la tabla de máquinas */
   const maquinasColumns = [
     {key: "nombre", label: "Nombre Maquina" },
     {key: "modelo", label: "Modelo Maquina" },
     {key: "estado_nombre", label: "Estado Maquina" }
   ]
 
+  /**
+   * Abrir modal de detalle de usuario
+   * @param {Object} dato Usuario seleccionado
+   */
   const handleUserClick = (dato) => {
     //console.log("Usuario seleccionado:", dato);
     setSelectedUser(dato);
     setOpen(true)
   };
+
+  /**
+   * Abrir modal de detalle de incidencia
+   * @param {Object} dato Incidencia seleccionada
+   */
   const handleIncidenClick = (dato) => {
     //console.log("Incidencia seleccionada:", dato);
     setSelectInci(dato);
     setOpenInciInfo(true)
-    
   }
+
+  /**
+   * Abrir modal de detalle de máquina
+   * @param {Object} dato Máquina seleccionada
+   */
   const handleMaquinaClick = (dato)=>{
     //console.log("Maquina seleccionada:", dato);
     setSelectMaquina(dato);
     setOpenMaquinaInfo(true);
   }
+
+  /** Cierra modales y limpia selección */
   const handleCerrar = ()=>{
     setOpenMaquinaInfo(false);
     setOpenInciInfo(false);

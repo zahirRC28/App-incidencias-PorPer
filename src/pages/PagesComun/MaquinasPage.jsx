@@ -6,6 +6,18 @@ import { userAuth } from "../../hooks/userAuth";
 import { maquinas } from "../../hooks/maquinas";
 import { Modal } from "../../components/Modal";
 
+/**
+ * Página de gestión de máquinas.
+ *
+ * Funcionalidades:
+ * - Muestra todas las máquinas según el rol del usuario.
+ * - Permite ver detalles de cada máquina en un modal.
+ * - Permite crear, editar o eliminar máquinas (solo Administrador).
+ *
+ * @component
+ * @returns {JSX.Element} Componente de la página de máquinas
+ */
+
 export const MaquinasPage = () => {
   const { todasMaquinas, eliminarMaquina, mensaje} = maquinas();
   const { getRole } = userAuth();
@@ -18,6 +30,10 @@ export const MaquinasPage = () => {
   const navigate = useNavigate();
   const rol = getRole();
   let crear = '/admin/maquina/crear';
+
+  /**
+   * Carga todas las máquinas y actualiza el estado `datos`.
+   */
 
   const cargadorDatos = async()=>{
     setLoading(true);
@@ -35,16 +51,28 @@ export const MaquinasPage = () => {
     cargadorDatos();
   }, []);
 
+  /**
+   * Maneja el clic sobre una fila de la tabla.
+   * Abre el modal con los detalles de la máquina seleccionada.
+   * @param {Object} dato Máquina seleccionada
+   */
   const handleMaquiClick = (dato) => {
     console.log("Maquina seleccionada:", dato);
     setSelectMaquina(dato);
     setOpen(true)
   }
+
+  /**
+   * Cierra el modal de detalles y limpia la máquina seleccionada.
+   */
   const handleCerrar = ()=>{
     setOpen(false);
     setSelectMaquina(null);
   }
 
+  /**
+   * Columnas que se muestran en la tabla de máquinas.
+   */
   const maquinasColumns = [
     {key: "nombre", label: "Nombre Maquina" },
     {key: "modelo", label: "Modelo Maquina" },
@@ -54,9 +82,16 @@ export const MaquinasPage = () => {
     maquinasColumns.push({key: "usuario_nombre", label: "Usuario" },{key: "id_usuario", label: "ID Usuario" } )
   }
 
+  /**
+   * Abre el modal de confirmación de eliminación.
+   */
   const handleConfirmacion = ()=>{
     setConfirmacion(true);
   }
+
+  /**
+   * Elimina la máquina seleccionada y refresca la tabla.
+   */
   const handleEliminarMaquina = async () => {
     if (!selectMaquina) return;
 

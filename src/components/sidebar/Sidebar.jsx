@@ -12,6 +12,20 @@ import usuariosIcon from "../../assets/dashboard/usuariosIcon.svg";
 import salirIcon from "../../assets/dashboard/salirIcon.svg";
 import { Logo } from '../ui/Logo';
 
+/**
+ * Componente Sidebar
+ *
+ * Renderiza un menú lateral (sidebar) responsivo con navegación condicional
+ * según el rol del usuario (Administrador, Técnico, Cliente, Jefe).  
+ * Permite colapsar/expandir el menú y mostrar información del usuario actual.
+ *
+ * @component
+ * @returns {JSX.Element} Sidebar con navegación y funcionalidad de logout.
+ *
+ * @example
+ * <Sidebar />
+ */
+
 export const Sidebar = ({}) => {
   const { logoutUser, user } = userAuth();
   //console.log(logoutUser);
@@ -21,12 +35,15 @@ export const Sidebar = ({}) => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Map de rutas según el rol
   const rutas = {
     Administrador: "admin",
     Tecnico: "tecnico",
     Cliente: "cliente",
     Jefe: "jefe"
   }
+  // Evita scroll cuando el menú móvil está abierto
+  
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "auto";
   }, [mobileOpen]);

@@ -5,10 +5,30 @@ import { useState } from "react";
 import "../../styles/authForm.css";
 import imgCorreo from "../../assets/imgCorreo.svg";
 import imgContra from "../../assets/imgContra.svg";
+/**
+ * Componente LoginForm
+ *
+ * Muestra un formulario de inicio de sesión para que los usuarios puedan autenticarse.
+ *
+ * @component
+ * @example
+ * return (
+ *   <LoginForm />
+ * )
+ */
 
 export const LoginForm = () => {
   const { loginUser, error } = userAuth();
   const [formError, setFormError] = useState(null);
+   /**
+   * Maneja el envío del formulario.
+   *
+   * Valida que los campos de correo y contraseña estén completos,
+   * y luego llama a la función loginUser del hook userAuth.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} ev Evento de envío del formulario
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async(ev)=>{
     ev.preventDefault();
     const correo = ev.target.email.value;

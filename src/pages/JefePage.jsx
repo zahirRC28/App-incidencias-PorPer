@@ -29,7 +29,11 @@ import { maquinas } from "../hooks/maquinas";
 import maquinasIcon from "../assets/dashboard/maquinasIcon.svg";
 import incidenciasIcon from "../assets/dashboard/incidenciasIcon.svg";
 import mantenimientosIcon from "../assets/dashboard/mantenimientoIcon.svg";
-
+/**
+ * Página principal del panel de Jefe
+ * @component
+ * @returns {JSX.Element} Renderiza el dashboard con estadísticas, tablas, gráficos y modales de detalle.
+ */
 export const JefePage = () => {
   const { todasIncidencias } = incidencias();
   const { todasMaquinas } = maquinas();
@@ -43,6 +47,11 @@ export const JefePage = () => {
   const [openMaqui, setOpenMaqui] = useState(false);
   const [selectedMaqui, setSelectedMaqui] = useState(null);
 
+  /**
+ * Página principal del panel de administración
+ * @component
+ * @returns {JSX.Element} Renderiza el dashboard con estadísticas, tablas, gráficos y modales de detalle.
+ */
   const cargarDatos = async () => {
     setLoading(true);
     try {
@@ -62,6 +71,7 @@ export const JefePage = () => {
 
   useEffect(() => { cargarDatos(); }, []);
 
+  /** Columnas para la tabla de incidencias */
   const incidenciasColumns = [
     { key: "titulo", label: "Título" },
     { key: "estado_nombre", label: "Estado" },
@@ -69,13 +79,23 @@ export const JefePage = () => {
     { key: "maquina_nombre", label: "Máquina" }
   ];
 
+  /** Columnas para la tabla de máquinas */
   const maquinasColumns = [
     { key: "nombre", label: "Nombre" },
     { key: "modelo", label: "Modelo" },
     { key: "estado_nombre", label: "Estado" }
   ];
 
+  /**
+   * Abrir modal de detalle de incidencia
+   * @param {Object} dato Incidencia seleccionada
+   */
   const handleInciClick = (inci) => { setSelectedInci(inci); setOpenInci(true); }
+  
+  /**
+   * Abrir modal de detalle de máquina
+   * @param {Object} dato Máquina seleccionada
+   */
   const handleMaquinaClick = (maqui) => { setSelectedMaqui(maqui); setOpenMaqui(true); }
   
   const estados = ["Enviada", "Asignada/Abierta", "En Proceso", "En Pausa", "Resuelta"];

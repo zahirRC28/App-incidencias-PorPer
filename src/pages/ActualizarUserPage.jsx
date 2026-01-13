@@ -6,6 +6,17 @@ import { Button } from "../components/ui/Button";
 import imgContra from "../assets/imgContra.svg";
 import imgCorreo from "../assets/imgCorreo.svg";
 
+/**
+ * Página para actualizar un usuario del sistema.
+ *
+ * Funcionalidades:
+ * - Carga los datos del usuario según su `id`.
+ * - Permite actualizar nombre, correo, contraseña y rol.
+ * - Muestra mensajes de error y éxito tras la actualización.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de actualización de usuario
+ */
 export const ActualizarUserPage = () => {
     const { id } = useParams();
     const { traerUsuario, actualizarUser, error, mensaje, todosRoles } = userAuth();
@@ -21,11 +32,18 @@ export const ActualizarUserPage = () => {
     const [roles, setRoles] = useState([])
     const [rolSeleccionado, setRolSeleccionado] = useState("");
 
+    /**
+   * Carga todos los roles disponibles
+   */
     const cargandoRoles = async()=>{
         const datos = await todosRoles();
         setRoles(datos);
         //console.log(datos);
     }
+
+    /**
+   * Carga los datos del usuario según su ID
+   */
     const cargarUsuario = async () => {
         const data = await traerUsuario(id);
         //console.log(data);
@@ -50,6 +68,12 @@ export const ActualizarUserPage = () => {
     //const rolUser = buscandoRoles ? buscandoRoles.nombre : '';
     //console.log(rolUser);
 
+    /**
+   * Maneja el envío del formulario para actualizar el usuario.
+   * Valida campos obligatorios y llama a la función `actualizarUser`.
+   *
+   * @param {Event} ev Evento de envío del formulario
+   */
     const handleSubmit = (ev) => {
         ev.preventDefault();
         const nombre = ev.target.nombre.value;

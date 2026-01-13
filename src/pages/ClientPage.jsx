@@ -9,6 +9,11 @@ import { Modal } from "../components/Modal";
 import maquinasIcon from "../assets/dashboard/maquinasIcon.svg";
 import incidenciasIcon from "../assets/dashboard/incidenciasIcon.svg";
 
+/**
+ * Panel principal del cliente
+ * @component
+ * @returns {JSX.Element} Renderiza el dashboard del cliente con estadísticas, tablas y modales de detalle.
+ */
 
 export const ClientPage = () => {
   const { todasIncidencias } = incidencias();
@@ -24,7 +29,11 @@ export const ClientPage = () => {
 
   const navigate = useNavigate();
   const crear = '/cliente/incidencia/crear'
-  
+
+  /**
+   * Carga las incidencias y máquinas del cliente desde el backend
+   * Maneja estados de carga y errores.
+   */
   const cargarDatos = async () => {
     setLoading(true);
     try {
@@ -44,29 +53,45 @@ export const ClientPage = () => {
   useEffect(() => {
     cargarDatos();
   }, []);
+
+  /**
+   * Abre modal de detalle de incidencia
+   * @param {Object} dato Incidencia seleccionada
+   */
   const handleIncidenClick = (dato) => {
     //console.log("Incidencia seleccionada:", dato);
     setSelectInci(dato);
     setOpenInciInfo(true)
     
   }
+
+  /**
+   * Abre modal de detalle de máquina
+   * @param {Object} dato Máquina seleccionada
+   */
   const handleMaquinaClick = (dato)=>{
     //console.log("Maquina seleccionada:", dato);
     setSelectMaquina(dato);
     setOpenMaquinaInfo(true);
   }
+
+  /** Cierra los modales y limpia la selección */
   const handleCerrar = ()=>{
     setOpenMaquinaInfo(false);
     setOpenInciInfo(false);
     setSelectInci(null);
     setSelectMaquina(null);
   }
+
+  /** Columnas para la tabla de incidencias */
   const incidenciasColums = [
     { key: "titulo", label: "Título" },
     { key: "estado_nombre", label: "Estado" },
     { key: "fecha_creacion", label: "Fecha de Creación" },
     { key: "maquina_nombre", label: "Maquina"}
   ];
+  
+  /** Columnas para la tabla de máquinas */
   const maquinasColumns = [
     {key: "nombre", label: "Nombre Maquina" },
     {key: "modelo", label: "Modelo Maquina" },

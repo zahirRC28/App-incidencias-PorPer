@@ -6,11 +6,21 @@ import { Input } from "../components/ui/Input"
 import { userAuth } from "../hooks/userAuth";
 import "../styles/pages/crearUser.css";
 
-
+/**
+ * Página para crear un nuevo usuario en el sistema
+ * - Permite asignar un rol al usuario
+ * - Valida campos requeridos
+ * - Muestra errores y mensajes de éxito
+ */
 export const CrearUserPage = () => {
     const { todosRoles, crearUsuario, error, mensaje } = userAuth();
     const [roles, setRoles] = useState([])
     const [formError, setFormError] = useState(null);
+    
+    /**
+     * Carga inicial de roles desde el backend
+     * - Llama a la función `todosRoles` del hook userAuth
+     */
     const cargandoRoles = async()=>{
         const datos = await todosRoles();
         setRoles(datos);
@@ -20,6 +30,12 @@ export const CrearUserPage = () => {
         cargandoRoles()
     }, [])
 
+    /**
+     * Maneja el envío del formulario
+     * - Recoge los valores de nombre, correo, contraseña y rol
+     * - Valida que nombre, correo y contraseña no estén vacíos
+     * - Llama a la función `crearUsuario` para crear el usuario
+     */
     const handleSubmit = (ev) => {
         ev.preventDefault();
         const nombre = ev.target.nombre.value;

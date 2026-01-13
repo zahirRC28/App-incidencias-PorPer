@@ -1,6 +1,26 @@
 import "../../styles/table.css";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Componente DataTable
+ *
+ * Este componente renderiza una tabla de datos dinámica con columnas configurables,
+ * soporte para acciones y límite de filas visibles.
+ *
+ * @param {Object} props - Props del componente.
+ * @param {string} props.title - Título que se muestra arriba de la tabla.
+ * @param {Array<Object>} props.columnas - Arreglo de objetos que describen las columnas:
+ *    @param {string} columnas[].key - Clave del dato en el objeto `data`.
+ *    @param {string} columnas[].label - Etiqueta que se muestra en el encabezado.
+ *    @param {function} [columnas[].render] - Función opcional para renderizar el valor personalizado.
+ * @param {Array<Object>} props.data - Arreglo de objetos con los datos que se mostrarán en la tabla.
+ * @param {function} [props.onClickInfo] - Función que se ejecuta al pulsar el botón "Info" de cada fila.
+ * @param {string} [props.todos] - Ruta a la que navegar al pulsar el botón "Ver todos".
+ * @param {number} [props.limit] - Número máximo de filas a mostrar.
+ *
+ * @returns {JSX.Element} Componente renderizado de la tabla.
+ */
+
 export const DataTable = ({ title, columnas, data, onClickInfo , todos, limit}) => {
   //con eso puedo configurar cuantos datos mostrar en la tabla con slice ya que extrae dependiedo de los parametros
   const visibleData = limit ? data.slice(0, limit) : data;

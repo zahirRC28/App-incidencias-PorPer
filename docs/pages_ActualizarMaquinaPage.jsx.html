@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/ActualizarMaquinaPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/ActualizarMaquinaPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { userAuth } from "../hooks/userAuth";
+import { maquinas } from "../hooks/maquinas";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
+
+/**
+ * Página para actualizar la información de una máquina.
+ *
+ * Funcionalidades:
+ * - Obtiene los datos de la máquina a actualizar según su `id`.
+ * - Permite cambiar nombre, modelo, prioridad recomendada y usuario asignado.
+ * - Muestra mensajes de éxito o error tras la actualización.
+ *
+ * @component
+ * @returns {JSX.Element} Componente de la página de actualización de máquina
+ */
+export const ActualizarMaquinaPage = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const { userPoRole } = userAuth();
+    const { buscarMaquinaID, actualizarMaquina, mensaje, error } = maquinas();
+
+    const [maquina, setMaquina] = useState({
+        nombre: "",
+        modelo: "",
+        prioridad_cliente: "",
+        id_usuario: "",
+        estado_nombre: ""
+    });
+
+    const [usuarios, setUsuarios] = useState([]);
+    const [formError, setFormError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    /**
+   * Carga los datos de la máquina y los usuarios tipo "Cliente"
+   */
+    const cargarDatos = async () => {
+        try {
+        const dataMaquina = await buscarMaquinaID(id);
+        const dataUsuarios = await userPoRole("Cliente");
+
+        setMaquina({
+            nombre: dataMaquina.nombre ?? "",
+            modelo: dataMaquina.modelo ?? "",
+            prioridad_cliente: dataMaquina.prioridad_cliente ?? "",
+            id_usuario: dataMaquina.id_usuario ?? "",
+            estado_nombre: dataMaquina.estado_nombre ?? "Funcionando"
+        });
+
+        setUsuarios(dataUsuarios ?? []);
+        } catch (err) {
+        console.error(err);
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        cargarDatos();
+    }, [id]);
+
+    /**
+   * Maneja el envío del formulario para actualizar la máquina.
+   * Valida campos obligatorios y llama a la función `actualizarMaquina`.
+   * 
+   * @param {Event} ev Evento del formulario
+   */
+    const handleSubmit = async (ev) => {
+        ev.preventDefault();
+
+        const nombre = ev.target.nombre.value;
+        const modelo = ev.target.modelo.value;
+        const prioridad_cliente = ev.target.prioridad_cliente.value;
+        const id_usuario = ev.target.id_usuario.value;
+
+        if (!nombre || !modelo) {
+        setFormError("Nombre y modelo son obligatorios");
+        return;
+        }
+
+        setFormError(null);
+
+        const datos = {
+        nombre,
+        modelo,
+        prioridad_cliente,
+        id_usuario,
+        estado_nombre: maquina.estado_nombre
+        };
+
+        await actualizarMaquina(id, datos);
+    };
+
+    if (loading) return &lt;p>Cargando máquina...&lt;/p>;
+
+  return (
+    &lt;>
+      &lt;h2>Actualizar Máquina: {maquina.nombre}&lt;/h2>
+
+      &lt;form onSubmit={handleSubmit}>
+        &lt;Input
+          labeltext="Nombre Máquina"
+          type="text"
+          name="nombre"
+          valor={maquina.nombre}
+        />
+
+        &lt;Input
+          labeltext="Modelo Máquina"
+          type="text"
+          name="modelo"
+          valor={maquina.modelo}
+        />
+
+        &lt;label>Prioridad Recomendada&lt;/label>
+        &lt;textarea
+          name="prioridad_cliente"
+          rows={4}
+          defaultValue={maquina.prioridad_cliente}
+        />
+
+        &lt;label>Usuario&lt;/label>
+        &lt;select name="id_usuario" defaultValue={maquina.id_usuario}>
+          &lt;option value="">Selecciona usuario&lt;/option>
+          {usuarios.map((user) => (
+            &lt;option key={user.id_usuario} value={user.id_usuario}>
+              {user.nombre_completo} — {user.correo}
+            &lt;/option>
+          ))}
+        &lt;/select>
+
+        {formError &amp;&amp; &lt;p className="error">{formError}&lt;/p>}
+        {error &amp;&amp; &lt;p className="error">{error}&lt;/p>}
+        {mensaje &amp;&amp; &lt;p className="success">{mensaje}&lt;/p>}
+
+        &lt;Button text="Actualizar" type="submit" />
+        &lt;Button text="Cancelar" type="button" onClick={() => navigate(-1)} />
+      &lt;/form>
+    &lt;/>
+  )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

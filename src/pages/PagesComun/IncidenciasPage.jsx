@@ -5,6 +5,17 @@ import { DataTable } from "../../components/dashboard/DataTable";
 import { userAuth } from "../../hooks/userAuth";
 import { Modal } from "../../components/Modal";
 
+/**
+ * Página principal de Incidencias.
+ *
+ * Muestra:
+ * - Tabla de incidencias según el rol del usuario.
+ * - Modal con detalle rápido de la incidencia seleccionada.
+ * - Botón para crear nuevas incidencias (si el rol lo permite).
+ *
+ * @component
+ * @returns {JSX.Element} Componente de la página de incidencias
+ */
 
 export const IncidenciasPage = () => {
     const { todasIncidencias } = incidencias();
@@ -30,6 +41,10 @@ export const IncidenciasPage = () => {
         detalles =`/cliente/incidencia/detalles`
     }
 
+    /**
+     * Carga todas las incidencias según el rol del usuario.
+     */
+
     const cargarDatos = async () => {
         setLoading(true);
         try {
@@ -47,6 +62,12 @@ export const IncidenciasPage = () => {
         cargarDatos();
     }, []);
     
+    /**
+     * Formatea una fecha a formato "dd/mm/yyyy hh:mm" en español.
+     * @param {string|Date} fecha
+     * @returns {string} Fecha formateada
+     */
+
     const formatFecha = (fecha) =>
         new Date(fecha).toLocaleString("es-ES", {
         day: "2-digit",
@@ -56,16 +77,31 @@ export const IncidenciasPage = () => {
         minute: "2-digit",
     });
 
+    /**
+     * Maneja el clic sobre una fila de la tabla de incidencias.
+     * Abre el modal con la incidencia seleccionada.
+     * @param {Object} dato Incidencia seleccionada
+     */
+
     const handleIncidenClick = (dato) => {
         //console.log("Incidencia seleccionada:", dato);
         setSelectInci(dato);
         setOpen(true);
     }
+
+    /**
+     * Cierra el modal de detalle de incidencia.
+     */
+
     const handleCerrar = ()=>{
         setOpen(false);
         setSelectInci(null);
     }
     
+    /**
+     * Columnas a mostrar en la DataTable.
+     */
+
     const incidenciasColums = [
         { key: "titulo", label: "Título" },
         { key: "estado_nombre", label: "Estado" },

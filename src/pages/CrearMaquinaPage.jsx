@@ -3,11 +3,20 @@ import { userAuth } from "../hooks/userAuth";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { maquinas } from "../hooks/maquinas";
-
+/**
+ * Página para crear una nueva máquina en el sistema
+ * - Solo permite asignar la máquina a usuarios con rol "Cliente"
+ * - Permite indicar nombre, modelo y prioridad recomendada
+ */
 export const CrearMaquinaPage = () => {
     const { userPoRole } = userAuth();
     const { crearMaquina, mensaje } = maquinas();
     const [usersList, setUserList] = useState([]);
+    
+    /**
+     * Carga inicial de datos
+     * - Obtiene los usuarios con rol "Cliente" para el select
+     */
     const cargarDatos = async() =>{
       const datos = await userPoRole("Cliente");
       setUserList(datos);
@@ -16,6 +25,12 @@ export const CrearMaquinaPage = () => {
       cargarDatos();
     }, [])
 
+    /**
+     * Maneja el envío del formulario
+     * - Recoge los valores de los campos
+     * - Valida que haya usuario seleccionado (implícito)
+     * - Llama al hook `crearMaquina` para crear la máquina
+     */
     const handleSubmit = async(ev)=> {
       ev.preventDefault();
       const nombreMaqui = ev.target.nombre.value;

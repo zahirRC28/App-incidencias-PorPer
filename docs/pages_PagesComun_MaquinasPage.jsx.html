@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/PagesComun/MaquinasPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/PagesComun/MaquinasPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { DataTable } from "../../components/dashboard/DataTable";
+import { userAuth } from "../../hooks/userAuth";
+import { maquinas } from "../../hooks/maquinas";
+import { Modal } from "../../components/Modal";
+
+/**
+ * Página de gestión de máquinas.
+ *
+ * Funcionalidades:
+ * - Muestra todas las máquinas según el rol del usuario.
+ * - Permite ver detalles de cada máquina en un modal.
+ * - Permite crear, editar o eliminar máquinas (solo Administrador).
+ *
+ * @component
+ * @returns {JSX.Element} Componente de la página de máquinas
+ */
+
+export const MaquinasPage = () => {
+  const { todasMaquinas, eliminarMaquina, mensaje} = maquinas();
+  const { getRole } = userAuth();
+  const [loading, setLoading] = useState(false);
+  const [datos, setDatos] = useState([]);
+  const [open, setOpen] = useState(false)
+  const [confirmacion, setConfirmacion] = useState(false);
+  const [selectMaquina, setSelectMaquina] = useState(null);
+
+  const navigate = useNavigate();
+  const rol = getRole();
+  let crear = '/admin/maquina/crear';
+
+  /**
+   * Carga todas las máquinas y actualiza el estado `datos`.
+   */
+
+  const cargadorDatos = async()=>{
+    setLoading(true);
+    try {
+      const maquinas = await todasMaquinas();
+      setDatos(maquinas);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(()=>{
+    cargadorDatos();
+  }, []);
+
+  /**
+   * Maneja el clic sobre una fila de la tabla.
+   * Abre el modal con los detalles de la máquina seleccionada.
+   * @param {Object} dato Máquina seleccionada
+   */
+  const handleMaquiClick = (dato) => {
+    console.log("Maquina seleccionada:", dato);
+    setSelectMaquina(dato);
+    setOpen(true)
+  }
+
+  /**
+   * Cierra el modal de detalles y limpia la máquina seleccionada.
+   */
+  const handleCerrar = ()=>{
+    setOpen(false);
+    setSelectMaquina(null);
+  }
+
+  /**
+   * Columnas que se muestran en la tabla de máquinas.
+   */
+  const maquinasColumns = [
+    {key: "nombre", label: "Nombre Maquina" },
+    {key: "modelo", label: "Modelo Maquina" },
+    {key: "estado_nombre", label: "Estado Maquina" }
+  ]
+  if(rol == "Administrador"){
+    maquinasColumns.push({key: "usuario_nombre", label: "Usuario" },{key: "id_usuario", label: "ID Usuario" } )
+  }
+
+  /**
+   * Abre el modal de confirmación de eliminación.
+   */
+  const handleConfirmacion = ()=>{
+    setConfirmacion(true);
+  }
+
+  /**
+   * Elimina la máquina seleccionada y refresca la tabla.
+   */
+  const handleEliminarMaquina = async () => {
+    if (!selectMaquina) return;
+
+    try {
+      await eliminarMaquina(selectMaquina.id_maquina);
+      setConfirmacion(false);
+      setOpen(false);
+      setSelectMaquina(null);
+      cargadorDatos(); // refresca la tabla
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return (
+    &lt;>
+      {rol == "Administrador" &amp;&amp;
+        &lt;>
+          &lt;h2>Maquinas del Sistema&lt;/h2>
+          &lt;button onClick={()=> navigate(crear)} >Crear maquina&lt;/button>
+        &lt;/>
+      }
+      {rol == "Cliente" &amp;&amp;
+        &lt;h2>Maquinas del Cliente&lt;/h2>
+      }
+      
+      &lt;DataTable
+        title="Maquinas del Cliente"
+        columnas={maquinasColumns}
+        data={datos}
+        onClickInfo={(maquina) => handleMaquiClick(maquina)}
+      />
+      {loading &amp;&amp; &lt;p>Cargando datos...&lt;/p>}
+      &lt;Modal open={open} onClose={handleCerrar}>
+        &lt;h2 className="titulo-modal">Detalle de Maquina&lt;/h2>
+        { selectMaquina ?(
+          &lt;>
+            &lt;div className="info">
+              &lt;p>Nombre: {selectMaquina.nombre}&lt;/p>
+              &lt;p>Modelo: {selectMaquina.modelo}&lt;/p>
+              &lt;p>Prioridad Sugerida: {selectMaquina.prioridad_cliente}&lt;/p>
+              &lt;p>Estado: {selectMaquina.estado_nombre}&lt;/p>
+              {
+                selectMaquina.usuario_nombre &amp;&amp; (
+                  &lt;>
+                    &lt;p>ID Usuario: {selectMaquina.id_usuario}&lt;/p>
+                    &lt;p>Propietario: {selectMaquina.usuario_nombre}&lt;/p>
+                  &lt;/>
+                )
+              }
+            &lt;/div>
+          &lt;/>
+        ):(
+          &lt;p className="info">No hay información de la máquina seleccionada.&lt;/p>
+        )}
+        { rol === 'Administrador' &amp;&amp;(
+          &lt;>
+            &lt;button onClick={()=> navigate(`/admin/maquina/actualizar/${selectMaquina.id_maquina}`)}>Editar&lt;/button>
+            &lt;button onClick={handleConfirmacion} >Eliminar&lt;/button>
+          &lt;/>
+        )}
+        &lt;button onClick={handleCerrar}>Cerrar&lt;/button>
+      &lt;/Modal>
+      &lt;Modal open={confirmacion} onClose={() => setConfirmacion(false)}>
+            &lt;h2>Seguro que quieres eliminar la maquina?&lt;/h2>
+            {
+                mensaje &amp;&amp; &lt;p style={{ color: "green" }}>{mensaje}&lt;/p>
+            }
+            &lt;button onClick={handleEliminarMaquina}>Eliminar&lt;/button>
+            &lt;button onClick={() => setConfirmacion(false)}>Cancelar&lt;/button>
+      &lt;/Modal>
+    &lt;/>
+  )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ActualizarMaquinaPage">ActualizarMaquinaPage</a></li><li><a href="global.html#ActualizarUserPage">ActualizarUserPage</a></li><li><a href="global.html#AdminLayout">AdminLayout</a></li><li><a href="global.html#AdminPage">AdminPage</a></li><li><a href="global.html#AppRoutes">AppRoutes</a></li><li><a href="global.html#AuthLayout">AuthLayout</a></li><li><a href="global.html#Button">Button</a></li><li><a href="global.html#Card">Card</a></li><li><a href="global.html#ClientPage">ClientPage</a></li><li><a href="global.html#ClienteLayout">ClienteLayout</a></li><li><a href="global.html#CrearIncidenciaPage">CrearIncidenciaPage</a></li><li><a href="global.html#CrearMaquinaPage">CrearMaquinaPage</a></li><li><a href="global.html#CrearUserPage">CrearUserPage</a></li><li><a href="global.html#DataTable">DataTable</a></li><li><a href="global.html#FeatureCard">FeatureCard</a></li><li><a href="global.html#IncidenciaDetallesPage">IncidenciaDetallesPage</a></li><li><a href="global.html#IncidenciasPage">IncidenciasPage</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#JefeLayout">JefeLayout</a></li><li><a href="global.html#JefePage">JefePage</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#Logo">Logo</a></li><li><a href="global.html#MaquinasPage">MaquinasPage</a></li><li><a href="global.html#Modal">Modal</a></li><li><a href="global.html#ProtectedRoutes">ProtectedRoutes</a></li><li><a href="global.html#PublicProtection">PublicProtection</a></li><li><a href="global.html#RendAni">RendAni</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#StatCard">StatCard</a></li><li><a href="global.html#TecnicoLayout">TecnicoLayout</a></li><li><a href="global.html#TecnicoPage">TecnicoPage</a></li><li><a href="global.html#UserProvider">UserProvider</a></li><li><a href="global.html#UsersPage">UsersPage</a></li><li><a href="global.html#conectar">conectar</a></li><li><a href="global.html#incidencias">incidencias</a></li><li><a href="global.html#maquinas">maquinas</a></li><li><a href="global.html#userAuth">userAuth</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Wed Jan 14 2026 00:52:25 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
