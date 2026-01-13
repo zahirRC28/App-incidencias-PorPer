@@ -57,7 +57,7 @@ export const IncidenciasPage = () => {
     });
 
     const handleIncidenClick = (dato) => {
-        //console.log("Incidencia seleccionada:", dato);
+        console.log("Incidencia seleccionada:", dato);
         setSelectInci(dato);
         setOpen(true);
     }

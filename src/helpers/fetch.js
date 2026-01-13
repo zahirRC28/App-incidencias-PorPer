@@ -48,6 +48,7 @@ const conectar = async (urlApi, method = 'GET', body = {}, token, responseType =
       return await resp.arrayBuffer();
     }
     //asta qui.
+    
     //console.log(resp);
     const datos = await resp.json();
     //console.log(datos);

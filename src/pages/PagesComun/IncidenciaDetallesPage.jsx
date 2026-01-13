@@ -176,7 +176,7 @@ export const IncidenciaDetallesPage = () => {
             {datos.foto_url ? (
                 <div className="imagen-incidencia">
                 <img
-                    src={`${urlBase}${datos.foto_url}`}
+                    src={`${datos.foto_url}`}
                     alt="Imagen de la incidencia"
                     onClick={() => setImagenAbierta(true)}
                 />
@@ -185,6 +185,7 @@ export const IncidenciaDetallesPage = () => {
             ): (
                 <p>No tiene foto Principal</p>
             )}
+
                 {/* Descripción */}
                 <div className="infoDe">
                     <p className="infoDe-title">Descripción</p>
@@ -303,7 +304,7 @@ export const IncidenciaDetallesPage = () => {
             </div>
 
             <Modal open={imagenAbierta} onClose={cerrarModal}>
-                <img src={`${urlBase}${datos.foto_url}`} />
+                <img src={`${datos.foto_url}`} />
             </Modal>
 
             {/*Acciones para el tecnico*/}
