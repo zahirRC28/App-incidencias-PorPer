@@ -50,6 +50,7 @@ export const AppRoutes = () => {
           <Route path="maquina/actualizar/:id" element={<ActualizarMaquinaPage/>} />
           <Route path="incidencias" element={<IncidenciasPage/>} />
           <Route path="incidencia/crear" element={<CrearIncidenciaPage/>}/>
+          <Route path="incidencia/detalles/:id" element={<IncidenciaDetallesPage />}/>
         </Route>
 
         {/*RUTAS DE JEFE*/}

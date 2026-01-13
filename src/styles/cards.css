@@ -1,67 +1,122 @@
-/* GRID DE TARJETAS */
+/* GRID */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1.5rem;
   margin: 2rem 0;
 }
 
 /* TARJETA */
 .stat-card {
-  background: white;
-  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(180deg, #ffffff, #fafafa);
+  border-radius: 16px;
   padding: 1.5rem;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   border: 1px solid #e5e7eb;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: fadeUp 0.4s ease both;
 }
 
 .stat-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
 }
 
-.stat-card p {
+/* TEXTO */
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-title {
   color: #6b7280;
-  margin-bottom: 0.3rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.stat-card h3 {
-  font-size: 2rem;
+.stat-value {
+  font-size: 2.1rem;
   font-weight: 700;
+  color: #111827;
 }
 
 /* ICONO */
 .stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  padding: 0.6rem;
+  object-fit: contain;
+  transition: transform 0.25s ease;
 }
 
-/* COLORES */
+.stat-card:hover .stat-icon {
+  transform: scale(1.05);
+}
+
+/* COLORES ICONO */
 .stat-card.blue .stat-icon {
   background: #e0ecff;
-  color: #2563eb;
 }
 
 .stat-card.orange .stat-icon {
   background: #fff4e5;
-  color: #f59e0b;
-}
-
-.stat-card.gray .stat-icon {
-  background: #f3f4f6;
-  color: #374151;
 }
 
 .stat-card.green .stat-icon {
   background: #e6f9f0;
-  color: #16a34a;
+}
+
+.stat-card.gray .stat-icon {
+  background: #f3f4f6;
+}
+
+/* BARRA SUPERIOR DECORATIVA */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+}
+
+.stat-card.blue::before {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+
+.stat-card.orange::before {
+  background: linear-gradient(90deg, #fbbf24, #fde68a);
+}
+
+.stat-card.green::before {
+  background: linear-gradient(90deg, #22c55e, #86efac);
+}
+
+.stat-card.gray::before {
+  background: linear-gradient(90deg, #9ca3af, #e5e7eb);
+}
+
+/* ANIMACIÓN */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

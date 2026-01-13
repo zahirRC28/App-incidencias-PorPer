@@ -1,9 +1,12 @@
+import { useState, useEffect } from "react";
+
 import { StatCard } from "../components/dashboard/StatCard";
 import { DataTable } from "../components/dashboard/DataTable";
 import { Modal } from "../components/Modal";
-import { useState, useEffect } from "react";
 import { incidencias } from "../hooks/incidencias";
 import { maquinas } from "../hooks/maquinas";
+import maquinasIcon from "../assets/dashboard/maquinasIcon.svg";
+import incidenciasIcon from "../assets/dashboard/incidenciasIcon.svg";
 
 export const TecnicoPage = () => {
   const { todasIncidencias } = incidencias();
@@ -52,8 +55,8 @@ export const TecnicoPage = () => {
       <p>Herramientas y gestión para Técnicos</p>
 
       <div className="stats-grid">
-        <StatCard title="Mis Incidencias" value={datosInci.length} icon="🛠️" color="green" />
-        <StatCard title="Máquinas" value={datosMaqui.length} icon="⚙️" color="gray" />
+        <StatCard title="Mis Incidencias" value={datosInci.length} icon={incidenciasIcon} color="green" />
+        <StatCard title="Máquinas" value={datosMaqui.length} icon={maquinasIcon} color="gray" />
       </div>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}

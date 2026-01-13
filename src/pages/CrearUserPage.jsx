@@ -47,8 +47,7 @@ export const CrearUserPage = () => {
             <form  onSubmit={handleSubmit}>
                 <Input labeltext={"Nombre Completo:"} 
                 type="text" name="nombre" 
-                placeholder="escribe aqui tu nombre" 
-                icon={<img src={imgCorreo} alt="nombre" />}
+                placeholder="escribe aqui tu nombre"
                 />
                 <Input labeltext={"Correo Electrónico:"} 
                     type="text" name="email" 

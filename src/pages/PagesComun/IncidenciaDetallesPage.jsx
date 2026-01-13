@@ -38,41 +38,37 @@ export const IncidenciaDetallesPage = () => {
     const [activarTecnicos, setActivarTenicos] = useState(false)
     
     const rol = getRole();   
-    //mejorar esto apra que carge dependiendo del rol
+    
     const cargarDatos = async () => {
         try {
             const incidencia = await IncidenciaPorId(id);
             setDatos(incidencia);
 
-            if (!user?.uid) return;
+            const informes = await obtenerInformesPorIncidencia(id);
+            setInformes(informes || []);
 
-            if (['Administrador', 'Jefe', 'Tecnico'].includes(rol)) {
-                const promises = [];
-
-                promises.push(obtenerInformesPorIncidencia(id));
-
-                if (rol === 'Administrador' || rol === 'Jefe') {
-                    promises.push(todosPrioriInci());
-                    promises.push(todosEstadosInci());
-                    promises.push(userPoRole("Tecnico"));
-                }
-
+            if (rol === 'Administrador' || rol === 'Jefe') {
                 const [
-                    informes,
                     prioridades,
                     estados,
                     usuarios
-                ] = await Promise.all(promises);
+                ] = await Promise.all([
+                    todosPrioriInci(),
+                    todosEstadosInci(),
+                    userPoRole("Tecnico")
+                ]);
 
-                setInformes(informes || []);
                 setPrioriList(prioridades || []);
                 setEstadosList(estados || []);
                 setUserList(usuarios || []);
             }
-
+            if (rol === 'Tecnico') {
+                const estados = await todosEstadosInci();
+                setEstadosList(estados || []);
+            }
             limpiarMensaje();
-        } catch (err) {
-            console.error("Error cargando datos:", err);
+        } catch (error) {
+            console.error("Error cargando datos:", error);
         }
     };
     const mostrarDato = (valor) => valor ?? "No tiene";
@@ -139,7 +135,7 @@ export const IncidenciaDetallesPage = () => {
         const info = await crearInforme(payload);
         if(tipo === 'Resolucion'){
             const result = await cambiarEstadoInci("Resuelta",id)
-            const result2 = await cambiarEstadoMaquina(datos.id_maquina, 'Funcionando') 
+            const result2 = await cambiarEstadoMaquina(datos.id_maquina, "Funcionando") 
         }
         if (info?.ok) {
             await cargarDatos();

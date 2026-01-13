@@ -1,0 +1,52 @@
+/* GRID PRINCIPAL - MOBILE FIRST */
+.charts-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr; /* Base: una columna */
+  margin-top: 2rem;
+  justify-items: center; /* Centra horizontalmente cada tarjeta */
+}
+
+/* TARJETAS DE GRÁFICOS */
+.chart-card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 500px; /* Limita el ancho para desktop */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra contenido dentro de la tarjeta */
+}
+
+/* TÍTULOS DE GRÁFICOS */
+.chart-card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center; /* Centra el texto */
+}
+
+/* DESKTOP - DOS COLUMNAS */
+@media (min-width: 768px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chart-card {
+    max-width: 450px; /* Ajusta el tamaño en desktop */
+  }
+}
+
+/* GRANDES PANTALLAS - MÁS ANCHO */
+@media (min-width: 1200px) {
+  .chart-card {
+    max-width: 500px;
+  }
+
+  .charts-grid {
+    gap: 3rem; /* Más espacio entre gráficos */
+  }
+}

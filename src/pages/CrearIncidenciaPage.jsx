@@ -77,7 +77,8 @@ export const CrearIncidenciaPage = () => {
         setMaquinasList([]);
         return;
       }
-      const dataMaqui = await todasMaquinas(userId);
+      const dataMaqui = await todasMaquinas(usuarioSeleccionado);
+      //console.log(dataMaqui);
       setMaquinasList(dataMaqui ?? []);
     };
 

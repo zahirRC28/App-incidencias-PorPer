@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { incidencias } from "../hooks/incidencias";
 import { DataTable } from "../components/dashboard/DataTable";
 import { StatCard } from "../components/dashboard/StatCard";
 import { maquinas } from "../hooks/maquinas";
-import { useNavigate } from "react-router-dom";
 import { Modal } from "../components/Modal";
+import maquinasIcon from "../assets/dashboard/maquinasIcon.svg";
+import incidenciasIcon from "../assets/dashboard/incidenciasIcon.svg";
 
 
 export const ClientPage = () => {
@@ -74,8 +77,8 @@ export const ClientPage = () => {
         <h1>Panel de Cliente</h1>
         <p>Bienvenido al panel de cliente de GMAO</p>
         <div className="stats-grid">
-          <StatCard title="Incidencias" value={datosInci.length} icon="i" color="orange" />
-          <StatCard title="Máquinas" value={datosMaqui.length} icon="o" color="gray" />
+          <StatCard title="Incidencias" value={datosInci.length} icon={incidenciasIcon} color="orange" />
+          <StatCard title="Máquinas" value={datosMaqui.length} icon={maquinasIcon} color="gray" />
         </div>
         <button onClick={()=> navigate(crear)} >Aqui puedes crear tu Incidencia</button>
         {error && <p style={{ color: "red" }}>{error}</p>}

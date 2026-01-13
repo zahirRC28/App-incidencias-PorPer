@@ -14,18 +14,16 @@ export const maquinas = () => {
     const todasMaquinas = async (userid = null) => {
     try {
         let info;
-
         // Admin, Jefe o Técnico → todas las máquinas
         if (['Administrador', 'Jefe', 'Tecnico'].includes(userRol) && !userid) {
             info = await conectar(`${urlBase}maquina/todas`, 'GET', {}, token);
         }
-
         // Cliente → máquinas por usuario
-        else if (userRol === 'Cliente') {
-            const idCliente = userid ?? uid;
-            info = await conectar(`${urlBase}maquina/porUsuario/${idCliente}`, 'GET', {}, token);
-        }
+        else if (userRol === 'Cliente' || userRol=== 'Administrador') {
+          const idCliente = userid ?? uid;
 
+          info = await conectar(`${urlBase}maquina/porUsuario/${idCliente}`, 'GET', {}, token); 
+        }
         // Seguridad: si no hay respuesta válida
         if (!info || info.ok === false) {
             return [];
@@ -44,6 +42,7 @@ export const maquinas = () => {
         estado_nombre: nombre
       }
       const info = await conectar(`${urlBase}maquina/${id}/estado`,'PUT',data, token);
+      console.log(info);
       return info
     }
 
