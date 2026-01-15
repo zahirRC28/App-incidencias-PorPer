@@ -22,6 +22,7 @@ export const Modal = ({ open, onClose, children }) => {
     if (!open) return null;
   return (
     <div className="modal-overlay" onClick={onClose}>
+      {/* con el stopPropagation detengo la propagacion del onClose para que no se cierre si doy click dentro del modal*/}
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         {children}
       </div>

@@ -127,7 +127,6 @@ export const IncidenciasPage = () => {
                 columnas={incidenciasColums}
                 data={datos}
                 onClickInfo={(incidencia) => handleIncidenClick(incidencia)}
-                todos="/admin/users"
             />
             {loading && <p>Cargando datos...</p>}
             <Modal open={open} onClose={handleCerrar}>

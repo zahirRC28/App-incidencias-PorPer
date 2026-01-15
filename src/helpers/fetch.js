@@ -33,7 +33,7 @@ const conectar = async (urlApi, method = 'GET', body = {}, token, responseType =
       headers: {},
       credentials: 'include'
     };
-
+    //El blob es lo que se usa para tratar los archivos, como imgenes, pdf, etc
     // Si la respuesta NO es un blob, se asume JSON
     if (responseType !== 'blob') {
       options.headers['Content-Type'] = 'application/json';
@@ -58,17 +58,6 @@ const conectar = async (urlApi, method = 'GET', body = {}, token, responseType =
     }
     //console.log(options);
     const resp = await fetch(urlApi, options);
-
-    // Si la respuesta no es exitosa, intenta parsearla a JSON o texto
-    if (!resp.ok) {
-      const contentType = resp.headers.get('content-type') || '';
-      if (contentType.includes('application/json')) {
-        const json = await resp.json().catch(() => null);
-        return { ok: false, status: resp.status, body: json };
-      }
-      const text = await resp.text().catch(() => null);
-      return { ok: false, status: resp.status, body: text };
-    }
 
     // Devuelve la respuesta según el tipo esperado
     if (responseType === 'blob') {

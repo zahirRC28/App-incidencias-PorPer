@@ -62,27 +62,29 @@ export const IncidenciaDetallesPage = () => {
             const incidencia = await IncidenciaPorId(id);
             setDatos(incidencia);
 
-            const informes = await obtenerInformesPorIncidencia(id);
-            setInformes(informes || []);
-
             if (rol === 'Administrador' || rol === 'Jefe') {
                 const [
                     prioridades,
                     estados,
-                    usuarios
+                    usuarios,
+                    informes
                 ] = await Promise.all([
                     todosPrioriInci(),
                     todosEstadosInci(),
-                    userPoRole("Tecnico")
+                    userPoRole("Tecnico"),
+                    obtenerInformesPorIncidencia(id)
                 ]);
 
                 setPrioriList(prioridades || []);
                 setEstadosList(estados || []);
                 setUserList(usuarios || []);
+                setInformes(informes || []);
             }
             if (rol === 'Tecnico') {
                 const estados = await todosEstadosInci();
+                const informes = await obtenerInformesPorIncidencia(id);
                 setEstadosList(estados || []);
+                setInformes(informes || []);
             }
             limpiarMensaje();
         } catch (error) {
@@ -95,6 +97,7 @@ export const IncidenciaDetallesPage = () => {
    * @param {any} valor - Valor a mostrar
    * @returns {string} Valor mostrado
    */
+    //Para que se vea mejor cuando no tiene valor
     const mostrarDato = (valor) => valor ?? "No tiene";
 
     /**
